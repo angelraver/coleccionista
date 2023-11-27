@@ -1,42 +1,54 @@
 <template>
-  <v-form v-model="valid">
-    <h1 class="text-h4 font-weight-bold">={{ valid }}, {{ user }}=</h1>
-    <v-container>
-      <v-row>
-        <v-col cols="6">
-          <v-text-field
-            v-model="user"
-            :rules="userRules"
-            label="Usuario"
-            required
-            hide-details
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="6">
-          <v-text-field
-            v-model="password"
-            :rules="passwordRules"
-            label="Password"
-            required
-            password
-            type="password"
-            hide-details
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-btn text="Login" @click="login()"></v-btn>
-    </v-container>
-  </v-form>
+  <v-container fluid fill-height>
+    <v-row justify="center">
+      <v-col cols="12" sm="4" md="8">
+        <v-img height="300" src="@/assets/logo-s.png" />
+        <v-form v-model="valid">
+          <v-container>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="user"
+                  :rules="userRules"
+                  label="Usuario"
+                  required
+                  hide-details
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="password"
+                  :rules="passwordRules"
+                  label="Password"
+                  required
+                  password
+                  type="password"
+                  hide-details
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-alert text="Usuario o password equivocados." type="error" v-show="loginFail"></v-alert>
+            </v-row>
+            <v-row justify="center">
+              <v-btn text="Login" :disabled="loading" @click="login()" color="amber"/>
+            </v-row>
+          </v-container>
+        </v-form>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
-const apiURL = 'http://localhost:8080'
-// const apiURL = 'https://coleccionista.rj.r.appspot.com'
+import { post } from '@/utils'
+
 export default {
   data() {
     return {
+      loginFail: false,
       loading: false,
       valid: false,
       user: '',
@@ -58,29 +70,24 @@ export default {
       ],
     }
   },
-  created() {},
   methods: {
     async login() {
       if (!this.valid) return
-
+      this.loginFail = false
       this.loading = true
       const postData = {
         user: this.user,
         password: this.password
       };
+
       try {
-        console.log(postData)
-        const res = await fetch(`${apiURL}/login`, {
-          method: "post",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(postData),
-        });
-        const data = await res.json();
-        if (data) {
+        const data = await post('/login', postData);
+        if (data.iduser) {
           document.cookie = `iduser=${data.iduser}`
+          this.$router.push({ name: 'Home' });
+          return
         }
+        this.loginFail = true
       } catch (error) {
         console.log('FAIL!')
         console.error(error);
@@ -89,9 +96,6 @@ export default {
         this.loading = false
       }
     },
-    async save() {
-      console.log('save!')
-    }
   },
 }
 </script>

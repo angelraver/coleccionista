@@ -24,12 +24,12 @@ const routes = [
         name: 'ItemNew',
         component: () => import('@/views/ItemForm.vue'),
       },
-      {
-        path: '/login',
-        name: 'Login',
-        component: () => import('@/views/Login.vue'),
-      },
     ],
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/Login.vue'),
   },
 ]
 

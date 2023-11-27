@@ -2,6 +2,12 @@
   <router-view />
 </template>
 
-<script lang="ts" setup>
-  //
+<script lang="ts">
+import { checkAutorized } from '@/utils'
+  
+export default {
+  beforeMount() {
+    checkAutorized(this)
+  }  
+}
 </script>

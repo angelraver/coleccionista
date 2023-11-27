@@ -1,12 +1,15 @@
 {
-  "name": "vuetify-project",
+  "name": "coleccionista",
   "version": "0.0.0",
   "private": true,
+  "homepage": "https://angelraver.github.io/coleccionista/",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "lint": "eslint . --fix --ignore-path .gitignore"
+    "lint": "eslint . --fix --ignore-path .gitignore",
+    "predeploy" : "npm run build",
+    "deploy" : "gh-pages -d dist"
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
@@ -21,6 +24,7 @@
     "@types/node": "^18.15.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-typescript": "^11.0.0",
+    "gh-pages": "^5.0.0",
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
     "sass": "^1.60.0",

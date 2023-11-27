@@ -6,7 +6,6 @@
         <v-col cols="6">
           <v-text-field
             v-model="name"
-            :rules="nameRules"
             :counter="10"
             label="Qué vas a coleccionar?"
             required
@@ -27,13 +26,6 @@
     data: () => ({
       valid: false,
       name: '',
-      nameRules: [
-        value => {
-          if (value) return true
- 
-          return 'Name is required.'
-        },
-      ],
       save: () => {
         console.log(name)
       }
@@ -44,6 +36,7 @@
     try {
       const response = await fetch('http://localhost:8001/item');
       const items = await response.json();
+      console.log(items)
     } catch (error) {
       console.log('FAIL!')
       console.error(error);
