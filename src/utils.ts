@@ -1,7 +1,5 @@
 import { useRouter } from 'vue-router'
-const apiURL = 'http://localhost:8080'
-// const apiURL = 'https://coleccionista.rj.r.appspot.com'
-
+const apiURL = import.meta.env.VITE_API_URL
 function getCookie(cname: string) {
   const name = cname + '=';
   const ca = document.cookie.split(';');
