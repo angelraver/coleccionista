@@ -9,7 +9,7 @@
 
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
-          <v-btn href="/collection/new" min-width="164" rel="noopener noreferrer"
+          <v-btn @click="$router.push({ name: 'CollectionNew'})" min-width="164" rel="noopener noreferrer"
             variant="text">
             <v-icon icon="mdi-plus" size="large" start />
             Nueva Colección

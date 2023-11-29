@@ -7,27 +7,25 @@ const routes = [
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
-        path: '',
+        path: '/coleccionista/home',
+        alias: ['/coleccionista', '/coleccionista/'],
         name: 'Home',
-        // route level code-splitting
-        // this generates a separate chunk (Home-[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
         component: () => import('@/views/Home.vue'),
       },
       {
-        path: '/collection/new',
+        path: '/coleccionista/collection/new',
         name: 'CollectionNew',
         component: () => import('@/views/CollectionForm.vue'),
       },
       {
-        path: '/collection/add',
+        path: '/coleccionista/collection/add',
         name: 'ItemNew',
         component: () => import('@/views/ItemForm.vue'),
       },
     ],
   },
   {
-    path: '/login',
+    path: '/coleccionista/login',
     name: 'Login',
     component: () => import('@/views/Login.vue'),
   },
