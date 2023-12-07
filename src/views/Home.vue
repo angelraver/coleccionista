@@ -1,26 +1,26 @@
+<script lang="ts" setup>
+  import CollectionList from '@/components/CollectionList.vue'
+
+</script>
 <template>
-  <v-container class="fill-height">
-    <v-responsive class="align-center text-center fill-height">
-      <v-img height="300" src="@/assets/logo-s.png" />
-      <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
-      <h1 class="text-h2 font-weight-bold">Coleccionista</h1>
-
-      <div class="py-14" />
-
+  <v-container>
+    <v-responsive class="text-center">
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
-          <v-btn @click="$router.push({ name: 'CollectionNew'})" min-width="164" rel="noopener noreferrer"
-            variant="text">
+          <img src="@/assets/logo-xs.png" title="Coleccionista" />
+
+          <h1>Tus colecciones</h1>
+
+          <v-btn @click="$router.push({ name: 'CollectionNew'})" class="bg-amber mt-4">
             <v-icon icon="mdi-plus" size="large" start />
             Nueva Colección
           </v-btn>
+
+          <CollectionList />
+
         </v-col>
       </v-row>
     </v-responsive>
   </v-container>
 </template>
 
-<script lang="ts">
-  export default {
-  }
-</script>

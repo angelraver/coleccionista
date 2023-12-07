@@ -18,9 +18,19 @@ const routes = [
         component: () => import('@/views/CollectionForm.vue'),
       },
       {
+        path: '/coleccionista/collection/edit/:id',
+        name: 'CollectionEdit',
+        component: () => import('@/views/CollectionForm.vue'),
+      },
+      {
         path: '/coleccionista/collection/add',
         name: 'ItemNew',
         component: () => import('@/views/ItemForm.vue'),
+      },
+      {
+        path: '/coleccionista/collection/:id',
+        name: 'CollectionDetail',
+        component: () => import('@/views/CollectionDetail.vue'),
       },
     ],
   },

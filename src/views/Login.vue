@@ -1,46 +1,3 @@
-<template>
-  <v-container fluid fill-height>
-    <v-row justify="center">
-      <v-col cols="12" sm="4" md="8">
-        <v-img height="300" src="@/assets/logo-s.png" />
-        <v-form v-model="valid">
-          <v-container>
-            <v-row>
-              <v-col>
-                <v-text-field
-                  v-model="user"
-                  :rules="userRules"
-                  label="Usuario"
-                  required
-                  hide-details
-                ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-text-field
-                  v-model="password"
-                  :rules="passwordRules"
-                  label="Password"
-                  required
-                  password
-                  type="password"
-                  hide-details
-                ></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-alert text="Usuario o password equivocados." type="error" v-show="loginFail"></v-alert>
-            </v-row>
-            <v-row justify="center">
-              <v-btn text="Login" :disabled="loading" @click="login()" color="amber"/>
-            </v-row>
-          </v-container>
-        </v-form>
-      </v-col>
-    </v-row>
-  </v-container>
-</template>
 
 <script lang="ts">
 import { post } from '@/utils'
@@ -89,7 +46,6 @@ export default {
         }
         this.loginFail = true
       } catch (error) {
-        console.log('FAIL!')
         console.error(error);
       }
       finally {
@@ -99,3 +55,46 @@ export default {
   },
 }
 </script>
+<template>
+  <v-container fluid fill-height>
+    <v-row justify="center">
+      <v-col cols="12" sm="4" md="8">
+        <v-img height="300" src="@/assets/logo-s.png" />
+        <v-form v-model="valid">
+          <v-container>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="user"
+                  :rules="userRules"
+                  label="Usuario"
+                  required
+                  hide-details
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field
+                  v-model="password"
+                  :rules="passwordRules"
+                  label="Password"
+                  required
+                  password
+                  type="password"
+                  hide-details
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-alert text="Usuario o password equivocados." type="error" v-show="loginFail"></v-alert>
+            </v-row>
+            <v-row justify="center">
+              <v-btn text="Login" :disabled="loading" @click="login()" color="amber"/>
+            </v-row>
+          </v-container>
+        </v-form>
+      </v-col>
+    </v-row>
+  </v-container>
+</template>
