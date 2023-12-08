@@ -32,6 +32,21 @@ const routes = [
         name: 'CollectionDetail',
         component: () => import('@/views/CollectionDetail.vue'),
       },
+      {
+        path: '/coleccionista/item/new/:idCollection',
+        name: 'ItemNew',
+        component: () => import('@/views/ItemForm.vue'),
+      },
+      {
+        path: '/coleccionista/item/:id',
+        name: 'Item',
+        component: () => import('@/views/ItemDetail.vue'),
+      },
+      {
+        path: '/coleccionista/item/edit/:id',
+        name: 'ItemEdit',
+        component: () => import('@/views/ItemForm.vue'),
+      },
     ],
   },
   {

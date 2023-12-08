@@ -14,7 +14,6 @@ export default {
   },
   methods: {
     agree() {
-      console.log('GOOO!!')
       this.$emit('agree');
     }
   },  
@@ -23,7 +22,7 @@ export default {
 <template>
   <v-dialog v-model="dialog" persistent width="auto">
     <template v-slot:activator="{ props }">
-      <v-btn class="bg-red" v-bind="props">
+      <v-btn class="bg-red ma-4" v-bind="props">
         {{ buttonOpenText }}
       </v-btn>
     </template>

@@ -2,12 +2,11 @@
 import { get, loggedUser } from '@/utils'
 import { type Item } from '@/entities/Item'
 import { type ItemType } from '@/entities/ItemType'
-import ItemForm from '@/components/ItemForm.vue'
-import { randomIcon, randomColor } from "@/utils"
+import ItemList from '@/components/ItemList.vue'
 
 export default {
   components: {
-    ItemForm
+    ItemList
   },
   data() {
     return {
@@ -17,45 +16,14 @@ export default {
       items: [] as Item[],
       collection: {} as ItemType,
       id: this.$route.params.id + '',
-      userId: loggedUser()?.id + ''
+      idUser: loggedUser()?.id + ''
     }
   },
   methods: {
-    randomIcon() {
-      return randomIcon()
-    },
-    randomColor() {
-      return randomColor().name
-    },
-    formOn() {
-      this.showForm = true
-      this.showList = false
-    },
-    formOff() {
-      this.showForm = false
-    },
-    listOn() {
-      this.showList = true
-      this.showForm = false
-    },
-    listOff() {
-      this.showList = false
-    },
-    async fetchItems() {
-      this.loading = true
-      try {
-        this.items = await get('/item', [this.userId, null, this.id]);
-      } catch (error) {
-        console.error(error);
-      }
-      finally {
-        this.loading = false
-      }
-    },
     async fetchCollection() {
       this.loading = true
       try {
-        const data = await get('/itemtype', [this.userId, this.id])
+        const data = await get('/itemtype', [this.idUser, this.id])
         this.collection = data[0]
       } catch (error) {
         console.error(error)
@@ -66,9 +34,7 @@ export default {
     }
   },
   async mounted() {
-    this.items = []
     await this.fetchCollection()
-    await this.fetchItems() 
   },
 }
 </script>
@@ -82,53 +48,25 @@ export default {
         <v-col>
           <h1 class="text-h4 font-weight-bold text-center">{{ collection.name }} ({{ collection.itemscount  }})</h1>
 
-          <v-btn @click="formOn()" v-show="showList" class="bg-amber mt-4">
+          <v-btn
+            @click="$router.push({ name: 'ItemNew', params: { idCollection: collection.id }})"
+            class="bg-green mt-4"
+          >
             <v-icon icon="mdi-plus" size="large" start />
             Nuevo item
           </v-btn>
 
         </v-col>
       </v-row>
-      <v-row justify="center" v-show="items.length < 1">
+      <v-row justify="center">
         <v-col>
-          <p>La colección está vacía.</p>
+          <ItemList :id-collection="id" :id-user="idUser" />
         </v-col>
       </v-row>
-      <v-row justify="center" v-show="showList && items.length > 0">
-        <v-col>
-
-          <v-list lines="two">
-            <v-list-item
-              v-for="item in items"
-              :key="item.id"
-              :title="item.title"
-            >
-              <template v-slot:prepend>
-                <v-avatar :color="randomColor()" :icon="randomIcon()" />
-              </template>
-
-              <template v-slot:append>
-                <v-btn
-                  color="grey-lighten-1"
-                  icon="mdi-information"
-                  variant="text"
-                ></v-btn>
-              </template>
-            </v-list-item>
-          </v-list>
-
-        </v-col>
-      </v-row>
-      <v-row justify="center" v-show="showForm">
-        <v-col>
-          <ItemForm />
-        </v-col>
-      </v-row>
-      <v-row justify="center" v-show="showList">
+      <v-row justify="center">
         <v-col>
           <v-btn
             @click="$router.push({ name: 'CollectionEdit', params: { id: collection.id }})"
-            v-show="showList"
             class="bg-amber mt-4"
           >
             <v-icon icon="mdi-pencil" size="large" />

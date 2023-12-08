@@ -134,25 +134,26 @@ export default {
         <v-col cols="8">
           <v-text-field
             v-model="name"
-            :counter="10"
-            label="Nombre actual"
+            :label="id ? 'Nombre actual' :  'Nombre'"
             required
             hide-details
           ></v-text-field>
         </v-col>
       </v-row>
       <v-row justify="center">
-        <v-col cols="auto" class="align-right">
-          <ModalConfirm 
-            buttonOpenText="Eliminar" 
-            buttonOkText="Eliminar"
-            buttonKoText="Cancelar"
-            :title="`Confirma que deseas eliminar ${name}`"
-            :description="`La colección ${name} será eliminada junto con los ${collection.itemscount} elementos que contiene.`"
-            @agree="del"
-          />
-          <v-btn text="Cancelar" @click="cancel()" class="ma-2" />
-          <v-btn text="Guardar" @click="save()" class="bg-amber ma-2" />
+        <v-col cols="auto">
+          <span v-show="id">
+            <ModalConfirm 
+              buttonOpenText="Eliminar" 
+              buttonOkText="Eliminar"
+              buttonKoText="Cancelar"
+              :title="`Confirma que deseas eliminar ${name}`"
+              :description="`La colección ${name} será eliminada junto con los ${collection.itemscount} elementos que contiene.`"
+              @agree="del"
+            />  
+          </span>  
+          <v-btn text="Cancelar" @click="cancel()" class="ma-4" />
+          <v-btn text="Guardar" @click="save()" class="bg-green ma-4" />
         </v-col>
       </v-row>
     </v-container>
