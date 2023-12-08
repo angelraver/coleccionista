@@ -1,13 +1,17 @@
 <script lang="ts">
-import { loggedUser, post, get, put } from '@/utils'
+import { loggedUser, post, get, put, del } from '@/utils'
 import { type ItemType } from '@/entities/ItemType'
+import ModalConfirm from '@/components/ModalConfirm.vue'
 
 export default {
+  components: {
+    ModalConfirm
+  },
   data() {
     return {
       id: parseInt(this.$route.params.id + ''),
       collection: {} as ItemType,
-      userId: loggedUser()?.id,
+      idUser: loggedUser()?.id,
       title: 'Crear nueva colección',
       breadcrumb: 'Nueva',
       loading: false,
@@ -37,7 +41,7 @@ export default {
       this.loading = true
       const postData = {
         name: this.name,
-        iduser: this.userId
+        iduser: this.idUser
       };
       try {
         const result = await post('/itemtype', postData);
@@ -69,10 +73,27 @@ export default {
         this.loading = false
       }
     },
+    async del() {
+      this.loading = true
+      const delData = {
+        id: this.id,
+        iduser: this.idUser
+      }
+
+      try {
+        await del('/itemtype', delData)
+        this.$router.push({ name: 'Home' })
+      } catch (error) {
+        console.error(error);
+      }
+      finally {
+        this.loading = false
+      }
+    },
     async fetchCollection() {
       this.loading = true
       try {
-        const data = await get('/itemtype', [this.userId + '', this.id + ''])
+        const data = await get('/itemtype', [this.idUser + '', this.id + ''])
         this.collection = data[0]
         this.name = this.collection.name
       } catch (error) {
@@ -122,6 +143,14 @@ export default {
       </v-row>
       <v-row justify="center">
         <v-col cols="auto" class="align-right">
+          <ModalConfirm 
+            buttonOpenText="Eliminar" 
+            buttonOkText="Eliminar"
+            buttonKoText="Cancelar"
+            :title="`Confirma que deseas eliminar ${name}`"
+            :description="`La colección ${name} será eliminada junto con los ${collection.itemscount} elementos que contiene.`"
+            @agree="del"
+          />
           <v-btn text="Cancelar" @click="cancel()" class="ma-2" />
           <v-btn text="Guardar" @click="save()" class="bg-amber ma-2" />
         </v-col>

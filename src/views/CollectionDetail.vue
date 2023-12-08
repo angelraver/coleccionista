@@ -89,28 +89,33 @@ export default {
 
         </v-col>
       </v-row>
-      <v-row justify="center" v-show="showList">
+      <v-row justify="center" v-show="items.length < 1">
+        <v-col>
+          <p>La colección está vacía.</p>
+        </v-col>
+      </v-row>
+      <v-row justify="center" v-show="showList && items.length > 0">
         <v-col>
 
-    <v-list lines="two">
-      <v-list-item
-        v-for="item in items"
-        :key="item.id"
-        :title="item.title"
-      >
-        <template v-slot:prepend>
-          <v-avatar :color="randomColor()" :icon="randomIcon()" />
-        </template>
+          <v-list lines="two">
+            <v-list-item
+              v-for="item in items"
+              :key="item.id"
+              :title="item.title"
+            >
+              <template v-slot:prepend>
+                <v-avatar :color="randomColor()" :icon="randomIcon()" />
+              </template>
 
-        <template v-slot:append>
-          <v-btn
-            color="grey-lighten-1"
-            icon="mdi-information"
-            variant="text"
-          ></v-btn>
-        </template>
-      </v-list-item>
-    </v-list>
+              <template v-slot:append>
+                <v-btn
+                  color="grey-lighten-1"
+                  icon="mdi-information"
+                  variant="text"
+                ></v-btn>
+              </template>
+            </v-list-item>
+          </v-list>
 
         </v-col>
       </v-row>
@@ -121,7 +126,11 @@ export default {
       </v-row>
       <v-row justify="center" v-show="showList">
         <v-col>
-          <v-btn @click="$router.push({ name: 'CollectionEdit', params: { id: collection.id }})" v-show="showList" class="bg-amber mt-4">
+          <v-btn
+            @click="$router.push({ name: 'CollectionEdit', params: { id: collection.id }})"
+            v-show="showList"
+            class="bg-amber mt-4"
+          >
             <v-icon icon="mdi-pencil" size="large" />
               Editar
           </v-btn>

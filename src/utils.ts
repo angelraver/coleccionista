@@ -29,7 +29,7 @@ export function checkAutorized(that: any = null) {
     return
   }
 
-  if (!user) {
+  if (!user.id) {
     const router = useRouter()
     router.push({ name: 'Login' })
   }
@@ -61,6 +61,18 @@ export async function post(path: string, body: object) {
 export async function put(path: string, body: object) {
   const res = await fetch(`${apiURL}${path}`, {
     method: "put",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  })
+  const data = await res.json();
+  return data
+}
+
+export async function del(path: string, body: object) {
+  const res = await fetch(`${apiURL}${path}`, {
+    method: "delete",
     headers: {
       "Content-Type": "application/json",
     },
