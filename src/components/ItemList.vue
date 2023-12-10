@@ -42,7 +42,7 @@ export default {
 </script>
 
 <template>
-  <p v-show="items.length < 1">La colección está vacía.</p>
+  <p v-show="items && items.length < 1">La colección está vacía.</p>
   <v-list lines="two">
     <v-list-item
       v-for="item in items"

@@ -27,6 +27,9 @@ export default {
           return 'Campo obligatorio.'
         },
       ],
+      selectedOption: null,
+      typedString: '',
+      gameList: [],
     }
   },
   methods: {
@@ -104,6 +107,7 @@ export default {
         const data = await get('/item', [this.idUser + '', this.id + '', this.idCollection + ''])
         this.item = data[0]
         this.title = this.item.title
+        this.idCollection = this.item.iditemtype
       } catch (error) {
         console.error(error)
       }
@@ -123,16 +127,46 @@ export default {
         this.loading = false
       }
     },
+    async fetchGames(title: string) {
+      this.loading = true
+      try {
+        const data = await get('/game', [title])
+        this.gameList = await data.map((g: {id: number, name: string}) => {
+          return { id: g.id, title: g.name,  }
+        })
+      } catch (error) {
+        console.error(error)
+      }
+      finally {
+        this.loading = false
+      }
+    },
+    async handleGameSelected(value: any) {
+      this.selectedOption = value
+      const game = this.gameList.find(({ id }) => id === value);
+      console.log( JSON.parse(JSON.stringify(game, null, 2)));
+    },
+    async handleGameInput(value: any) {
+      if (value.data) {
+        this.typedString = this.typedString + value.data;
+      } else {
+        this.typedString = this.typedString.substring(0, this.typedString.length - 1);
+      }
+      if (this.typedString.length > 3) {
+        await this.fetchGames(this.typedString)
+      }
+    },
   },
   async mounted() {
+    if (this.idCollection) {
+      await this.fetchCollection()
+      this.breadcrumb = ['Colecciones', this.collection.name, 'Item', 'Nuevo']
+    }
     if (this.id) {
       await this.fetchItem()
       this.idCollection = this.item.iditemtype
-      await this.fetchCollection()
       this.breadcrumb = ['Colecciones', this.collection.name, 'Item', 'Editar', this.item.title]
       this.pageTitle = 'Editar'
-    } else {
-      this.breadcrumb = ['Colecciones', this.collection.name, 'Item', 'Nuevo']
     }
   },
 }
@@ -149,12 +183,16 @@ export default {
             <v-container>
               <v-row justify="center">
                 <v-col cols="8">
-                  <v-text-field
-                    v-model="title"
-                    label="Título"
-                    required
-                    hide-details
-                  ></v-text-field>
+                  <v-autocomplete
+                    label="Buscar un título"
+                    v-model="selectedOption"
+                    :items="gameList"
+                    variant="outlined"
+                    item-text="title"
+                    item-value="id"
+                    @update:model-value="handleGameSelected"
+                    @input="handleGameInput"
+                  ></v-autocomplete>
                 </v-col>
               </v-row>
               <v-row justify="center">
