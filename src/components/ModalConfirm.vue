@@ -26,7 +26,7 @@ export default {
         {{ buttonOpenText }}
       </v-btn>
     </template>
-    <v-card class="pa-4">
+    <v-card class="pa-2">
       <v-card-title class="text-h5">
         {{ title }}
       </v-card-title>

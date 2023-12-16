@@ -1,8 +1,10 @@
 <script lang="ts">
-import { get, loggedUser } from '@/utils'
+import { loggedUser } from '@/controllers/utils'
 import { type Item } from '@/entities/Item'
-import { type ItemType } from '@/entities/ItemType'
+import { type Collection } from '@/entities/Collection'
 import ItemList from '@/components/ItemList.vue'
+import { CollectionController } from '@/controllers/Collection'
+import { ItemTypes, getItemTypeLabel } from '@/entities/ItemType'
 
 export default {
   components: {
@@ -10,20 +12,20 @@ export default {
   },
   data() {
     return {
-      showList: true,
-      showForm: false,
+      id: parseInt(this.$route.params.id + ''),
+      idUser: parseInt(loggedUser()?.id + ''),
       loading: false,
       items: [] as Item[],
-      collection: {} as ItemType,
-      id: this.$route.params.id + '',
-      idUser: loggedUser()?.id + ''
+      collection: {} as Collection,
+      itemTypes: ItemTypes,
+      itemTypeLabel: ''
     }
   },
   methods: {
     async fetchCollection() {
       this.loading = true
       try {
-        const data = await get('/itemtype', [this.idUser, this.id])
+        const data = await CollectionController.fetch(this.idUser, this.id)
         this.collection = data[0]
       } catch (error) {
         console.error(error)
@@ -35,19 +37,21 @@ export default {
   },
   async mounted() {
     await this.fetchCollection()
+    this.itemTypeLabel = getItemTypeLabel(this.collection.iditemtype)
   },
 }
 </script>
 
 <template>
   <v-breadcrumbs :items="['Colecciones', collection.name]"></v-breadcrumbs>
-
   <v-container>
     <v-responsive class="text-center">
       <v-row class="d-flex align-center justify-center">
         <v-col>
-          <h1 class="text-h4 font-weight-bold text-center">{{ collection.name }} ({{ collection.itemscount  }})</h1>
-
+          <h1 class="text-h4 font-weight-bold text-center">{{ collection.name }}</h1>
+          
+          <p class="ma-4">{{ collection.itemscount  }} ítems</p>
+          <p class="ma-4">{{ itemTypeLabel }}</p>
           <v-btn
             @click="$router.push({ name: 'ItemNew', params: { idCollection: collection.id }})"
             class="bg-green mt-4"

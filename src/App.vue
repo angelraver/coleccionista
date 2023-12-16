@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { checkAutorized } from '@/utils'
+import { checkAutorized } from '@/controllers/utils'
   
 export default {
   beforeMount() {

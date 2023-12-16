@@ -1,5 +1,7 @@
 import { useRouter } from 'vue-router'
-export const apiURL = import.meta.env.VITE_API_URL
+export const API_URL = import.meta.env.VITE_API_URL
+export const COVER_URL ='https://images.igdb.com/igdb/image/upload/t_screenshot_med_2x/'
+
 function getCookie(cname: string) {
   const name = cname + '=';
   const ca = document.cookie.split(';');
@@ -34,52 +36,6 @@ export function checkAutorized(that: any = null) {
     router.push({ name: 'Login' })
   }
   return user
-}
-
-export async function get(path: string, params: (string | null)[]) {
-  let route = `${apiURL}${path}`
-  params.forEach(function (qparam){
-    route = `${route}/${qparam}`
-  })
-  const res = await fetch(route, { method: "get" })
-  const data = await res.json();
-  return data
-}
-
-export async function post(path: string, body: object) {
-  const res = await fetch(`${apiURL}${path}`, {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  })
-  const data = await res.json();
-  return data
-}
-
-export async function put(path: string, body: object) {
-  const res = await fetch(`${apiURL}${path}`, {
-    method: "put",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  })
-  const data = await res.json();
-  return data
-}
-
-export async function del(path: string, body: object) {
-  const res = await fetch(`${apiURL}${path}`, {
-    method: "delete",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  })
-  const data = await res.json();
-  return data
 }
 
 export function randomIcon(): string {

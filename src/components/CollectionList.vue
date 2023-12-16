@@ -1,20 +1,23 @@
 <script lang="ts">
-import { get, loggedUser } from '@/utils'
-import { type ItemType } from '@/entities/ItemType'
+import { loggedUser } from '@/controllers/utils'
+import { type Collection } from '@/entities/Collection'
+import { CollectionController } from '@/controllers/Collection'
+import { getItemTypeLabel } from '@/entities/ItemType'
 
 export default {
   data() {
     return {
       loading: false,
-      collections: [] as ItemType[],
+      idUser: parseInt(loggedUser()?.id + ''),
+      collections: [] as Collection[],
+      typeLabel: (idItemType: number) => getItemTypeLabel(idItemType)
     }
   },
   methods: {
     async fetchCollections() {
       this.loading = true
       try {
-        const userId = loggedUser()?.id + ''
-        const data = await get('/itemtype', [userId]);
+        const data = await CollectionController.fetch(this.idUser, null);
         this.collections = data
       } catch (error) {
         console.error(error);
@@ -23,13 +26,10 @@ export default {
         this.loading = false
       }
     },
-    open() {
-
-    }
   },
-  mounted() {
+  async mounted() {
     this.collections = []
-    this.fetchCollections() 
+    await this.fetchCollections()
   },
 }
 </script>
@@ -50,9 +50,9 @@ export default {
           @click="$router.push({ name: 'CollectionDetail', params: { id: collection.id }})"
         >
           <v-card-item>
-              <div class="text-h6 pa-1">
-                {{ collection.name }} ({{ collection.itemscount }})
-              </div>
+              <div class="text-h6 pa-1">{{ collection.name }}</div>
+              <div class="text-caption">{{ typeLabel(collection.iditemtype) }}</div>
+              <div class="text-caption">{{ collection.itemscount }} ítems</div>
           </v-card-item>
         </v-card>
       </v-col>

@@ -1,9 +1,12 @@
 export type Item = {
-  id: number,
-  iduser: number,
-  iditemtype: number,
+  id?: number
+  iduser: number
+  iditemtype: number
+  idcollection: number
   title: string
-  typename: string,
-  createdat: string,
-  updatedat: string
+  idigdb?: number | null
+  cover?: string
+  collectionname?: string
+  createdat?: string
+  updatedat?: string
 }

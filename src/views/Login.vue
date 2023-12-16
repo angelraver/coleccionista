@@ -1,6 +1,6 @@
 
 <script lang="ts">
-import { post } from '@/utils'
+import { UserController } from '@/controllers/User'
 
 export default {
   data() {
@@ -32,19 +32,14 @@ export default {
       if (!this.valid) return
       this.loginFail = false
       this.loading = true
-      const postData = {
-        user: this.user,
-        password: this.password
-      };
-
       try {
-        const data = await post('/login', postData);
+        const data = await UserController.login(this.user, this.password)
         if (data.iduser) {
           document.cookie = `iduser=${data.iduser}`
-          this.$router.push({ name: 'Home' });
-          return
+          this.$router.push({ name: 'Home' })
+        } else {
+          this.loginFail = true
         }
-        this.loginFail = true
       } catch (error) {
         console.error(error);
       }

@@ -1,25 +1,32 @@
 <script lang="ts">
-import { loggedUser, get } from '@/utils'
+import { loggedUser } from '@/controllers/utils'
 import { type Item } from '@/entities/Item'
-import { type ItemType } from '@/entities/ItemType'
+import { type ItemType, getItemTypeLabel } from '@/entities/ItemType'
+import ModalConfirm from '@/components/ModalConfirm.vue'
+import { ItemController } from '@/controllers/Item'
+import { COVER_URL  } from '@/controllers/utils'
 
 export default {
+  components: {
+    ModalConfirm
+  },
   data() {
     return {
       breadcrumb: [] as string[],
       id: parseInt(this.$route.params.id + ''),
-      idCollection: parseInt(this.$route.params.idCollection + ''),
-      idUser: loggedUser()?.id + '',
+      idUser: parseInt(loggedUser()?.id + ''),
       item: {} as Item,
       collection: {} as ItemType,
       loading: false,
+      typeLabel: (idItemType: number) => getItemTypeLabel(idItemType),
+      coverUrl: COVER_URL
     }
   },
   methods: {
     async fetchItem() {
       this.loading = true
       try {
-        const data = await get('/item', [this.idUser + '', this.id + '', this.idCollection + ''])
+        const data = await ItemController.fetch(this.idUser, this.id, null)
         this.item = data[0]
       } catch (error) {
         console.error(error)
@@ -28,13 +35,13 @@ export default {
         this.loading = false
       }
     },
-    async fetchCollection() {
+    async del() {
       this.loading = true
       try {
-        const data = await get('/itemtype', [this.idUser + '', this.idCollection + ''])
-        this.collection = data[0]
+        await ItemController.remove(this.id, this.idUser)
+        this.$router.push({ name: 'CollectionDetail', params: { id: this.item.idcollection }})
       } catch (error) {
-        console.error(error)
+        console.error(error);
       }
       finally {
         this.loading = false
@@ -42,9 +49,8 @@ export default {
     },
   },
   async mounted() {
-    await this.fetchCollection()
     await this.fetchItem()
-    this.breadcrumb = ['Colecciones', this.collection.name, 'Item', this.item.title]
+    this.breadcrumb = ['Colecciones', this.item.collectionname + '', this.item.title]
   },
 }
 </script>
@@ -58,16 +64,34 @@ export default {
           <v-card
             width="400"
             :title="item.title"
-            :subtitle="collection.name"
-            text="."
-          ></v-card>
+            :subtitle="typeLabel(item.iditemtype)"
+            :text="`Colección ${item.collectionname}`"
+          >
+          <v-img
+            v-if="item.cover"
+            :width="400"
+            aspect-ratio="1/1"
+            cover
+            :src="coverUrl + item.cover"
+          ></v-img>
+        </v-card>
         </v-col>
       </v-row>
       <v-row justify="center">
         <v-col cols="auto">
-          <v-btn
+          <span v-show="item.idigdb">
+            <ModalConfirm 
+              buttonOpenText="Eliminar" 
+              buttonOkText="Eliminar"
+              buttonKoText="Cancelar"
+              :title="`Confirma que deseas eliminar ${item.title}`"
+              :description="`El item ${item.title} será eliminado de la colección ${item.collectionname}.`"
+              @agree="del"
+            />
+          </span>
+          <v-btn v-show="!item.idigdb"
             @click="$router.push({ name: 'ItemEdit', params: { id: id }})"
-            class="bg-amber mt-4"
+            class="bg-amber ma-4"
           >
             <v-icon icon="mdi-pencil" size="large" />
               Editar
