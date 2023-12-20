@@ -134,7 +134,7 @@ export default {
                   <v-btn
                     class="ma-4"
                     text="Cancelar"
-                    @click="$router.push({ name: 'CollectionDetails', params: { id: idCollection }})"
+                    @click="$router.push({ name: 'CollectionDetail', params: { id: idCollection }})"
                   ></v-btn>
                   <v-btn
                       :disabled="!isValid"
