@@ -4,7 +4,7 @@ import { type Item } from '@/entities/Item'
 import { type ItemType, getItemTypeLabel } from '@/entities/ItemType'
 import ModalConfirm from '@/components/ModalConfirm.vue'
 import { ItemController } from '@/controllers/Item'
-import { COVER_URL  } from '@/controllers/utils'
+import { COVER_URL_BIG  } from '@/controllers/utils'
 
 export default {
   components: {
@@ -16,10 +16,11 @@ export default {
       id: parseInt(this.$route.params.id + ''),
       idUser: parseInt(loggedUser()?.id + ''),
       item: {} as Item,
+      title: '' as string,
       collection: {} as ItemType,
       loading: false,
       typeLabel: (idItemType: number) => getItemTypeLabel(idItemType),
-      coverUrl: COVER_URL
+      coverUrl: COVER_URL_BIG
     }
   },
   methods: {
@@ -51,6 +52,11 @@ export default {
   async mounted() {
     await this.fetchItem()
     this.breadcrumb = ['Colecciones', this.item.collectionname + '', this.item.title]
+    if (this.item.iditemtype === 3) {
+      this.title = this.item.title + ' - ' + this.item.author
+    } else {
+      this.title = this.item.title
+    }
   },
 }
 </script>
@@ -63,8 +69,8 @@ export default {
         <v-col cols="auto">
           <v-card
             width="400"
-            :title="item.title"
-            :subtitle="typeLabel(item.iditemtype)"
+            :title="title"
+            :subtitle="`${item.year} | ${typeLabel(item.iditemtype)}`"
             :text="`Colección ${item.collectionname}`"
           >
           <v-img

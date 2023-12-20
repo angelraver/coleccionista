@@ -7,6 +7,8 @@ export type Item = {
   idigdb?: number | null
   cover?: string
   collectionname?: string
+  author?: string
+  year?: number
   createdat?: string
   updatedat?: string
 }

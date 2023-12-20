@@ -1,6 +1,7 @@
 import { useRouter } from 'vue-router'
 export const API_URL = import.meta.env.VITE_API_URL
-export const COVER_URL ='https://images.igdb.com/igdb/image/upload/t_screenshot_med_2x/'
+export const COVER_URL_BIG ='https://images.igdb.com/igdb/image/upload/t_cover_big/'
+export const COVER_URL_SMALL ='https://images.igdb.com/igdb/image/upload/t_cover_small/'
 
 function getCookie(cname: string) {
   const name = cname + '=';

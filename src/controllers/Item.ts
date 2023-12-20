@@ -9,11 +9,19 @@ const create = async (item: Item) => {
   }
 }
 
-const update =  async (id: number, idUser: number, title: string) => {
+const update =  async (
+  id: number,
+  idUser: number,
+  title: string,
+  author: string,
+  year: number
+  ) => {
   const item = {
     id: id,
     iduser: idUser,
     title: title,
+    author: author,
+    year: year
   }
   try {
     await put('/item', item);

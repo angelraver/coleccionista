@@ -2,7 +2,7 @@
 import { type Item } from '@/entities/Item'
 import { randomIcon, randomColor } from "@/controllers/utils"
 import { ItemController } from '@/controllers/Item'
-import { COVER_URL  } from '@/controllers/utils'
+import { COVER_URL_SMALL  } from '@/controllers/utils'
 
 export default {
   props: {
@@ -19,7 +19,7 @@ export default {
     return {
       loading: false,
       items: [] as Item[],
-      coverUrl: COVER_URL
+      coverUrl: COVER_URL_SMALL
     }
   },
   methods: {

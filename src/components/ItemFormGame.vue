@@ -5,8 +5,9 @@ import { type Item } from '@/entities/Item'
 
 export type Game = {
   id: number | null,
-  name: string | null
   title: string | null
+  titleSimple: string | null
+  year: number | 0
 }
 
 export default {
@@ -50,8 +51,9 @@ export default {
         idcollection: this.idCollection,
         iditemtype: this.idItemType,
         iduser: this.idUser,
-        title: this.igdbGame.title + '',
-        idigdb: this.igdbGame.id
+        title: this.igdbGame.titleSimple + '',
+        idigdb: this.igdbGame.id,
+        year: this.igdbGame.year
       }
       try {
         await ItemController.create(item)
@@ -67,7 +69,14 @@ export default {
       this.loading = true
       try {
         const data = await IgdbController.fetch(title)
-        this.igdbGameList = data
+        this.igdbGameList = data.map((g) => {
+          return {
+            id: g.id,
+            title: `${g.title} (${g.year})`,
+            titleSimple: g.title,
+            year: g.year
+          }
+        })
       } catch (error) {
         console.error(error)
       }
