@@ -69,11 +69,12 @@ export default {
       this.loading = true
       try {
         const data = await IgdbController.fetch(title)
-        this.igdbGameList = data.map((g) => {
+        this.igdbGameList = data.map((g: Game) => {
           return {
             id: g.id,
             title: `${g.title} (${g.year})`,
             titleSimple: g.title,
+            author: '',
             year: g.year
           }
         })

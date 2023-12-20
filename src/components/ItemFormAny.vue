@@ -72,7 +72,7 @@ export default {
       this.loading = true
 
       try {
-        await ItemController.update(this.id || 0, this.idUser, this.title)
+        await ItemController.update(this.id || 0, this.idUser, this.title, '', 0)
         this.$router.push({ name: 'CollectionDetail', params: { id: this.idCollection }})
       } catch (error) {
         console.error(error);
