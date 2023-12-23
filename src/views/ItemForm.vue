@@ -22,6 +22,7 @@ export default {
       idCollection: parseInt(this.$route.params.idCollection + ''),
       idUser: parseInt(loggedUser()?.id + ''),
       idItemType: 0,
+      idPlatform: 0,
       nameCollection: '',
       item: {} as Item,
       collection: {} as Collection,
@@ -53,6 +54,7 @@ export default {
         this.collection = data[0]
         this.idItemType = this.collection.iditemtype
         this.nameCollection = this.collection.name
+        this.idPlatform = this.collection.idplatform
         this.code = getItemTypeCode(this.collection.iditemtype)
       } catch (error) {
         console.error(error)
@@ -82,6 +84,7 @@ export default {
     :id-collection="idCollection"
     :id-user="idUser"
     :id-item-type="idItemType"
+    :id-platform="idPlatform"
     :name-collection="nameCollection"
   />
   <ItemFormBook

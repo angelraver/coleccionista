@@ -54,7 +54,7 @@ export default {
           <p class="ma-4">{{ itemTypeLabel }}</p>
           <v-btn
             @click="$router.push({ name: 'ItemNew', params: { idCollection: collection.id }})"
-            class="bg-green mt-4"
+            class="bg-green mt-2"
           >
             <v-icon icon="mdi-plus" size="large" start />
             Nuevo item

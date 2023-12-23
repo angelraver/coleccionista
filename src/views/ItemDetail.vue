@@ -68,7 +68,6 @@ export default {
       <v-row class="justify-center">
         <v-col cols="auto">
           <v-card
-            width="400"
             :title="title"
             :subtitle="`${item.year} | ${typeLabel(item.iditemtype)}`"
             :text="`Colección ${item.collectionname}`"

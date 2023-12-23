@@ -24,6 +24,10 @@ export default {
       type: Number,
       required: true
     },
+    idPlatform: {
+      type: Number,
+      required: true
+    },
     idUser: {
       type: Number,
       required: true
@@ -68,7 +72,7 @@ export default {
     async fetchIgdbGames(title: string) {
       this.loading = true
       try {
-        const data = await IgdbController.fetch(title)
+        const data = await IgdbController.fetch(title, this.idPlatform)
         this.igdbGameList = data.map((g: Game) => {
           return {
             id: g.id,
@@ -139,7 +143,7 @@ export default {
                   ></v-btn>
                   <v-btn
                       :disabled="!isValid"
-                      class="bg-green ma-4"
+                      class="bg-green ma-2"
                       text="Guardar"
                       @click="create()"
                   ></v-btn>

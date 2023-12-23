@@ -194,7 +194,7 @@ export default {
         <v-btn
           text="Guardar"
           @click="save()"
-          class="bg-green ma-4"
+          class="bg-green ma-2"
           :disabled="!idValid"
         />
       </v-col>

@@ -13,9 +13,9 @@ function getYearFromUnixTimestamp(value: number) {
   return year;
 }
 
-const fetch = async (title: string) => {
+const fetch = async (title: string, idPlatform: number) => {
   try {
-    const data = await get('/games', [title])
+    const data = await get('/games', [title, idPlatform + ''])
     return await data.map((g: IgdbGame) => {
       return { 
         id: g.id,
