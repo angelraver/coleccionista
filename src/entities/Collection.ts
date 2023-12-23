@@ -4,6 +4,7 @@ export type Collection = {
   iditemtype: number
   name: string
   itemscount: number
+  idplatform: number
   createdat: string
   updatedat: string
 }

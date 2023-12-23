@@ -4,6 +4,7 @@ import { CollectionController } from '@/controllers/Collection'
 import { ItemTypes, getItemTypeLabel } from '@/entities/ItemType'
 import { type Collection } from '@/entities/Collection'
 import ModalConfirm from '@/components/ModalConfirm.vue'
+import { VIDEOGAME_PLATFORMS } from '@/entities/VideoGamePlatforms'
 
 export default {
   components: {
@@ -18,12 +19,16 @@ export default {
       breadcrumb: [] as String[],
       loading: false,
       valid: false,
-      selectedItemType: null as Number | null,
       name: '',
+      selectedIdItemType: null as Number | null,
       itemTypeLabel: '',
       itemTypes: ItemTypes.map(({ id, name }) => { 
         return {  id, title: name }
       }),
+      videoGamePlatforms: VIDEOGAME_PLATFORMS.slice().sort((a, b) => a.name.localeCompare(b.name)).map(({ id, name }) => { 
+        return {  id, title: name }
+      }),
+      selectedIdVideoGamePlatform: null as Number | null,
     }
   },
   methods: {
@@ -37,7 +42,12 @@ export default {
     async create() {
       this.loading = true
       try {
-        const result = await CollectionController.create(this.idUser, this.name, parseInt(this.selectedItemType + ''))
+        const result = await CollectionController.create(
+          this.idUser,
+          this.name,
+          parseInt(this.selectedIdItemType + ''),
+          parseInt(this.selectedIdVideoGamePlatform + '')
+        )
         this.$router.push({ name: 'CollectionDetail', params: { id: result.id }})
       } catch (error) {
         console.error(error);
@@ -49,7 +59,12 @@ export default {
     async update() {
       this.loading = true
       try {
-        await CollectionController.update(this.id, this.idUser, this.name)
+        await CollectionController.update(
+          this.id,
+          this.idUser,
+          this.name,
+          parseInt(this.selectedIdVideoGamePlatform + '')
+        )
         this.$router.push({ name: 'CollectionDetail', params: { id: this.id }})
       } catch (error) {
         console.error(error);
@@ -76,6 +91,8 @@ export default {
         const data = await CollectionController.fetch(this.idUser, this.id,)
         this.collection = data[0]
         this.name = this.collection.name
+        this.selectedIdItemType = this.collection.iditemtype
+        this.selectedIdVideoGamePlatform = this.collection.idplatform > 0 ? this.collection.idplatform : null
       } catch (error) {
         console.error(error)
       }
@@ -97,8 +114,11 @@ export default {
         return this.name.length > 0
       } else {
         return this.name.length > 0 
-          && (!!this.selectedItemType && parseInt(this.selectedItemType + '') > 0)
+          && (!!this.selectedIdItemType && parseInt(this.selectedIdItemType + '') > 0)
       }
+    },
+    isTypeVideoGame(): boolean {
+      return !!this.selectedIdItemType && this.selectedIdItemType === 1
     }
   },
   async mounted() {
@@ -139,11 +159,22 @@ export default {
     <v-row justify="center" v-show="!id">
       <v-col cols="8">
         <v-select
-          v-model="selectedItemType"
+          v-model="selectedIdItemType"
           :items="itemTypes"
           item-text="name"
           item-value="id"
           label="Tipo de item"
+        />
+      </v-col>
+    </v-row>
+    <v-row justify="center" v-show="isTypeVideoGame">
+      <v-col cols="8">
+        <v-select
+          v-model="selectedIdVideoGamePlatform"
+          :items="videoGamePlatforms"
+          item-text="name"
+          item-value="id"
+          label="Plataforma"
         />
       </v-col>
     </v-row>

@@ -1,10 +1,16 @@
 import { post, put, del, get } from '@/controllers/requests'
 
-const create = async (idUser: number, name: string, idItemType: number) => {
+const create = async (
+  idUser: number,
+  name: string,
+  idItemType: number,
+  idPlatforn: number = 0
+) => {
   const postData = {
     iduser:idUser,
     name: name,
-    iditemtype: idItemType
+    iditemtype: idItemType,
+    idplatform: idPlatforn,
   };
   try {
     const result = await post('/collection', postData);
@@ -14,11 +20,17 @@ const create = async (idUser: number, name: string, idItemType: number) => {
   }
 }
 
-const update = async (id: number, idUser: number, name: string) => {
+const update = async (
+  id: number,
+  idUser: number,
+  name: string,
+  idPlatform: number,
+) => {
   const putData = {
     id: id,
     iduser: idUser,
     name: name,
+    idplatform: idPlatform,
   }
   try {
     await put('/collection', putData);
