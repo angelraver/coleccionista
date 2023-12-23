@@ -50,11 +50,11 @@ export default {
         <v-col>
           <h1 class="text-h4 font-weight-bold text-center">{{ collection.name }}</h1>
           
-          <p class="ma-4">{{ collection.itemscount  }} ítems</p>
-          <p class="ma-4">{{ itemTypeLabel }}</p>
+          <p class="ma-2">{{ collection.itemscount  }} ítems</p>
+          <p class="ma-2">{{ itemTypeLabel }}</p>
           <v-btn
             @click="$router.push({ name: 'ItemNew', params: { idCollection: collection.id }})"
-            class="bg-green mt-2"
+            class="bg-amber mt-2"
           >
             <v-icon icon="mdi-plus" size="large" start />
             Nuevo item

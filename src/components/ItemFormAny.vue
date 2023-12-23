@@ -137,12 +137,22 @@ export default {
       </v-row>
       <v-row justify="center">
         <v-col cols="auto">
+          <v-btn
+            text="Guardar"
+            @click="save()"
+            class="bg-amber ma-2"
+            :disabled="!idValid"
+          />
+        </v-col>
+      </v-row>
+      <v-row justify="center">
+        <v-col cols="auto">
           <span v-show="id">
             <ModalConfirm 
               buttonOpenText="Eliminar" 
               buttonOkText="Eliminar"
               buttonKoText="Cancelar"
-              :title="`Confirma que deseas eliminar ${title}`"
+              title="Confirma que deseas eliminar"
               :description="`El item ${title} será eliminado de la colección ${nameCollection}.`"
               @agree="del"
             />  
@@ -151,12 +161,6 @@ export default {
             text="Cancelar"
             @click="cancel()"
             class="ma-2"
-          />
-          <v-btn
-            text="Guardar"
-            @click="save()"
-            class="bg-green ma-2"
-            :disabled="!idValid"
           />
         </v-col>
       </v-row>

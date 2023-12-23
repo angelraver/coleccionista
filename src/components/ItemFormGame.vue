@@ -137,13 +137,13 @@ export default {
               <v-row justify="center">
                 <v-col cols="auto">
                   <v-btn
-                    class="ma-4"
+                    class="ma-2"
                     text="Cancelar"
                     @click="$router.push({ name: 'CollectionDetail', params: { id: idCollection }})"
                   ></v-btn>
                   <v-btn
                       :disabled="!isValid"
-                      class="bg-green ma-2"
+                      class="bg-amber ma-2"
                       text="Guardar"
                       @click="create()"
                   ></v-btn>

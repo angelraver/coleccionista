@@ -22,12 +22,12 @@ export default {
 <template>
   <v-dialog v-model="dialog" persistent width="auto">
     <template v-slot:activator="{ props }">
-      <v-btn class="bg-red ma-4" v-bind="props">
+      <v-btn class="ma-2" v-bind="props">
         {{ buttonOpenText }}
       </v-btn>
     </template>
     <v-card class="pa-2">
-      <v-card-title class="text-h5">
+      <v-card-title class="text-h5 text-center text-wrap">
         {{ title }}
       </v-card-title>
       <v-card-text>{{ description }}</v-card-text>

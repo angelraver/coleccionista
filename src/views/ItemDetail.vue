@@ -89,14 +89,14 @@ export default {
               buttonOpenText="Eliminar" 
               buttonOkText="Eliminar"
               buttonKoText="Cancelar"
-              :title="`Confirma que deseas eliminar ${item.title}`"
+              title="Confirma que deseas eliminar"
               :description="`El item ${item.title} será eliminado de la colección ${item.collectionname}.`"
               @agree="del"
             />
           </span>
           <v-btn v-show="!item.idigdb"
             @click="$router.push({ name: 'ItemEdit', params: { id: id }})"
-            class="bg-amber ma-4"
+            class="bg-amber ma-2"
           >
             <v-icon icon="mdi-pencil" size="large" />
               Editar

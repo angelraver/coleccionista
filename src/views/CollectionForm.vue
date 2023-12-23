@@ -92,7 +92,7 @@ export default {
         this.collection = data[0]
         this.name = this.collection.name
         this.selectedIdItemType = this.collection.iditemtype
-        this.selectedIdVideoGamePlatform = this.collection.idplatform > 0 ? this.collection.idplatform : null
+        this.selectedIdVideoGamePlatform = this.collection.idplatform || 0
       } catch (error) {
         console.error(error)
       }
@@ -130,6 +130,7 @@ export default {
     } else {
       this.breadcrumb = ['Colecciones', 'Nueva']
     }
+    this.videoGamePlatforms = [{ id: 0, title: 'Ninguna' }, ...this.videoGamePlatforms]
   }
 }
 </script>
@@ -180,23 +181,27 @@ export default {
     </v-row>
     <v-row justify="center">
       <v-col cols="auto">
+        <v-btn
+          text="Guardar"
+          @click="save()"
+          class="bg-amber ma-2"
+          :disabled="!idValid"
+        />
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-col cols="auto">
         <span v-show="id">
           <ModalConfirm 
             buttonOpenText="Eliminar" 
             buttonOkText="Eliminar"
             buttonKoText="Cancelar"
-            :title="`Confirma que deseas eliminar ${name}`"
+            title="Confirma que deseas eliminar"
             :description="`La colección ${name} será eliminada junto con los ${collection.itemscount} elementos que contiene.`"
             @agree="del"
           />  
         </span>  
-        <v-btn text="Cancelar" @click="cancel()" class="ma-4" />
-        <v-btn
-          text="Guardar"
-          @click="save()"
-          class="bg-green ma-2"
-          :disabled="!idValid"
-        />
+        <v-btn text="Cancelar" @click="cancel()" class="ma-2" />
       </v-col>
     </v-row>
   </v-container>
