@@ -64,7 +64,7 @@ export default {
       </v-row>
       <v-row justify="center">
         <v-col>
-          <ItemList :id-collection="id" :id-user="idUser" />
+          <ItemList :id-item-type="collection.iditemtype" :id-collection="id" :id-user="idUser" />
         </v-col>
       </v-row>
       <v-row justify="center">
