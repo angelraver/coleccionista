@@ -6,6 +6,8 @@ export default {
     buttonKoText: String,
     title: String,
     description: String,
+    buttonBg: String,
+    icon: String
   },
   data() {
     return {
@@ -14,6 +16,7 @@ export default {
   },
   methods: {
     agree() {
+      this.dialog = false
       this.$emit('agree');
     }
   },  
@@ -22,7 +25,8 @@ export default {
 <template>
   <v-dialog v-model="dialog" persistent width="auto">
     <template v-slot:activator="{ props }">
-      <v-btn class="ma-2" v-bind="props">
+      <v-btn :class="`ma-2 ${buttonBg}`" v-bind="props">
+        <v-icon v-if="!!icon">{{icon}}</v-icon>
         {{ buttonOpenText }}
       </v-btn>
     </template>

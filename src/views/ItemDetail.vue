@@ -1,10 +1,11 @@
 <script lang="ts">
 import { loggedUser } from '@/controllers/utils'
 import { type Item } from '@/entities/Item'
+import { type Image } from '@/entities/Image'
 import { type ItemType, getItemTypeLabel } from '@/entities/ItemType'
 import ModalConfirm from '@/components/ModalConfirm.vue'
 import { ItemController } from '@/controllers/Item'
-import { COVER_URL_BIG  } from '@/controllers/utils'
+import { COVER_URL_BIG, MEDIA_URL } from '@/controllers/utils'
 
 export default {
   components: {
@@ -16,11 +17,12 @@ export default {
       id: parseInt(this.$route.params.id + ''),
       idUser: parseInt(loggedUser()?.id + ''),
       item: {} as Item,
-      title: '' as string,
       collection: {} as ItemType,
+      images: [] as Image[],
       loading: false,
       typeLabel: (idItemType: number) => getItemTypeLabel(idItemType),
-      coverUrl: COVER_URL_BIG
+      coverUrl: COVER_URL_BIG,
+      mediaUrl: MEDIA_URL,
     }
   },
   methods: {
@@ -29,6 +31,18 @@ export default {
       try {
         const data = await ItemController.fetch(this.idUser, this.id, null)
         this.item = data[0]
+      } catch (error) {
+        console.error(error)
+      }
+      finally {
+        this.loading = false
+        this.fetchItemImages()
+      }
+    },
+    async fetchItemImages() {
+      this.loading = true
+      try {
+        this.images = await ItemController.fetchImages(this.idUser, this.id)
       } catch (error) {
         console.error(error)
       }
@@ -52,11 +66,6 @@ export default {
   async mounted() {
     await this.fetchItem()
     this.breadcrumb = ['Colecciones', this.item.collectionname + '', this.item.title]
-    if (this.item.iditemtype === 3) {
-      this.title = this.item.title + ' - ' + this.item.author
-    } else {
-      this.title = this.item.title
-    }
   },
 }
 </script>
@@ -67,19 +76,26 @@ export default {
     <v-responsive class="text-center">
       <v-row class="justify-center">
         <v-col cols="auto">
-          <v-card
-            :title="title"
-            :subtitle="`${item.year} | ${typeLabel(item.iditemtype)}`"
-            :text="`Colección ${item.collectionname}`"
-          >
-          <v-img
-            v-if="item.cover"
-            :width="400"
-            aspect-ratio="1/1"
-            cover
-            :src="coverUrl + item.cover"
-          ></v-img>
-        </v-card>
+          <v-card class="pl-4 pr-4 pb-4">
+            <h1 class="mt-4">{{ item.title }}</h1>
+            <h2 v-if="item.author && item.author.length > 0">de {{ item.author }}</h2>
+            <p v-if="item.year && item.year > 0">{{ item.year }}</p>
+            <p>Colección {{item.collectionname}}</p>
+            <p>{{ typeLabel(item.iditemtype) }}</p>
+            <v-img
+              v-if="item.cover"
+              :width="400"
+              aspect-ratio="1/1"
+              cover
+              :src="coverUrl + item.cover"
+            />
+            <v-card v-for="(image, i) in images" :key="i" class="pa-2 ma-2">
+              <v-img
+                :width="400"
+                :src="`${mediaUrl}/${image.name}`"
+              />
+            </v-card>
+          </v-card>
         </v-col>
       </v-row>
       <v-row justify="center">

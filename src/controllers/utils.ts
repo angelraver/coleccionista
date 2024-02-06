@@ -1,5 +1,6 @@
 import { useRouter } from 'vue-router'
 export const API_URL = import.meta.env.VITE_API_URL
+export const MEDIA_URL = import.meta.env.VITE_MEDIA_URL
 export const COVER_URL_BIG ='https://images.igdb.com/igdb/image/upload/t_cover_big/'
 export const COVER_URL_SMALL ='https://images.igdb.com/igdb/image/upload/t_cover_small/'
 

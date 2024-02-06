@@ -1,4 +1,4 @@
-import { post, put, del, get } from '@/controllers/requests'
+import { post, put, del, get, postFile } from '@/controllers/requests'
 import { type Item } from '@/entities/Item'
 
 const create = async (item: Item) => {
@@ -51,4 +51,29 @@ const fetch =  async (
   }
 }
 
-export const ItemController = { create, update, remove, fetch };
+const uploadImage = async (body: any) => {
+  try {
+    return await postFile('/upload', body);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+const fetchImages =  async (idUser: number, idItem: number) => {
+  try {
+    const data = await get('/itemimage', [idUser + '', idItem + ''])
+    return data || []
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const removeImage = async (name: string, id: number, iduser: number) => {
+  try {
+    await del('/image', { name, id, iduser })
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const ItemController = { create, update, remove, fetch, uploadImage, fetchImages, removeImage };

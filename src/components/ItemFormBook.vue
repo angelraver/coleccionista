@@ -2,6 +2,7 @@
 import { ItemController } from '@/controllers/Item'
 import { getItemTypeLabel } from '@/entities/ItemType'
 import ModalConfirm from '@/components/ModalConfirm.vue'
+import ItemImageEdit from '@/components/ItemImageEdit.vue'
 
 export default {
   props: {
@@ -39,7 +40,8 @@ export default {
     }
   },
   components: {
-    ModalConfirm
+    ModalConfirm,
+    ItemImageEdit
   },
   data() {
     return {
@@ -157,10 +159,26 @@ export default {
             hide-details
           ></v-text-field>
         </v-col>
-      </v-row>
+      </v-row>      
       <v-row class="justify-center">
         <v-col cols="8">
           <p>{{ typeLabel(idItemType) }}</p>
+        </v-col>
+      </v-row>
+      <v-row class="justify-center">
+        <v-col cols="8">
+          <v-btn
+            @click="$router.push({ name: 'Photo', params: { id } })"
+            class="bg-amber mt-2"
+          >
+            <v-icon icon="mdi-camera" size="large" start />
+            Agregar Foto
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row class="justify-center">
+        <v-col cols="8">
+          <ItemImageEdit :id-item="id || 0" :id-user="idUser" />
         </v-col>
       </v-row>
       <v-row justify="center">

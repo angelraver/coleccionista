@@ -47,6 +47,11 @@ const routes = [
         name: 'ItemEdit',
         component: () => import('@/views/ItemForm.vue'),
       },
+      {
+        path: '/coleccionista/photo/:id',
+        name: 'Photo',
+        component: () => import('@/views/ItemPhoto.vue'),
+      },
     ],
   },
   {

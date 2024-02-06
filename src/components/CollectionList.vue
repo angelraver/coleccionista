@@ -41,7 +41,7 @@ export default {
         <p>No hay colecciones.</p>
       </v-col>
     </v-row>
-    <v-row justify="center">
+    <v-row justify="center" v-if="collections.length > 0">
       <v-col v-for="(collection, i) in collections" :key="i" cols="auto">
         <v-card
           class="mx-auto"
