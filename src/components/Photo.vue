@@ -22,7 +22,7 @@ export default {
       const idItem = this.idItem
       const ref = this.$refs;
       if (ref) {
-        const camera = ref.camera
+        const camera = ref.camera as typeof Camera
         if (camera) {
           const blob = await camera.snapshot();
           const formData = new FormData();
