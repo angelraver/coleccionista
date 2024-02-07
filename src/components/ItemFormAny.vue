@@ -150,7 +150,7 @@ export default {
       </v-row>
       <v-row class="justify-center">
         <v-col cols="8">
-          <ItemImageEdit :id-item="id || 0" :id-user="idUser" />
+          <ItemImageEdit v-if="!!id" :id-item="id" :id-user="idUser" />
         </v-col>
       </v-row>
       <v-row justify="center">
