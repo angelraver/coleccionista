@@ -3,6 +3,7 @@ import { type Image } from '@/entities/Image'
 import ModalConfirm from '@/components/ModalConfirm.vue'
 import { ItemController } from '@/controllers/Item'
 import { MEDIA_URL } from '@/controllers/utils'
+import Loading from '@/components/Loading.vue'
 
 export default {
   props: {
@@ -16,7 +17,8 @@ export default {
     },
   },
   components: {
-    ModalConfirm
+    ModalConfirm,
+    Loading
   },
   data() {
     return {
@@ -57,28 +59,42 @@ export default {
 </script>
 
 <template>
-  <v-container>
-    <v-responsive class="text-center">
-      <v-row class="justify-center">
-        <v-col cols="auto">
-          <v-card v-for="(image, i) in images" :key="i" class="pa-2 ma-2">
-            <v-img
-              :width="400"
-              :src="`${mediaUrl}/${image.name}`"
-            />
-            <ModalConfirm 
-              buttonOpenText="" 
-              buttonOkText="Eliminar"
-              buttonKoText="Cancelar"
-              title="Confirma que deseas eliminar"
-              description="La imagen será eliminada definitivamente."
-              button-bg="bg-red"
-              icon="mdi-delete"
-              @agree="del(image)"
-            />
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-responsive>
-  </v-container>
+  <Loading v-if="loading" />
+  <div v-if="!loading">
+    <v-container>
+      <v-responsive class="text-center">
+        <v-row class="justify-center">
+          <v-col cols="8">
+            <v-btn
+              @click="$router.push({ name: 'Photo', params: { idItem } })"
+              class="bg-amber mt-2"
+            >
+              <v-icon icon="mdi-camera" size="large" start />
+              Agregar Foto
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row class="justify-center">
+          <v-col cols="auto">
+            <v-card v-for="(image, i) in images" :key="i" class="pa-2 ma-2">
+              <v-img
+                :width="400"
+                :src="`${mediaUrl}/${image.name}`"
+              />
+              <ModalConfirm 
+                buttonOpenText="" 
+                buttonOkText="Eliminar"
+                buttonKoText="Cancelar"
+                title="Confirma que deseas eliminar"
+                description="La imagen será eliminada definitivamente."
+                button-bg="bg-red"
+                icon="mdi-delete"
+                @agree="del(image)"
+              />
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-responsive>
+    </v-container>
+  </div>
 </template>

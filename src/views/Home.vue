@@ -1,6 +1,5 @@
 <script lang="ts" setup>
   import CollectionList from '@/components/CollectionList.vue'
-
 </script>
 <template>
   <v-container>

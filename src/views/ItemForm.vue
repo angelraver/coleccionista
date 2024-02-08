@@ -1,5 +1,5 @@
 <script lang="ts">
-import { loggedUser } from '@/controllers/utils'
+import { loggedUser, type Breadcrumb } from '@/controllers/utils'
 import { type Collection } from '@/entities/Collection'
 import { type Item } from '@/entities/Item'
 import { CollectionController } from '@/controllers/Collection'
@@ -8,16 +8,18 @@ import ItemFormGame from '@/components/ItemFormGame.vue'
 import ItemFormAny from '@/components/ItemFormAny.vue'
 import ItemFormBook from '@/components/ItemFormBook.vue'
 import { getItemTypeCode } from '@/entities/ItemType'
+import Loading from '@/components/Loading.vue'
 
 export default {
   components: {
     ItemFormGame,
     ItemFormAny,
     ItemFormBook,
+    Loading
   },
   data() {
     return {
-      breadcrumb: [] as string[],
+      breadcrumbs: [] as Breadcrumb[],
       id: parseInt(this.$route.params.id + ''),
       idCollection: parseInt(this.$route.params.idCollection + ''),
       idUser: parseInt(loggedUser()?.id + ''),
@@ -63,48 +65,85 @@ export default {
         this.loading = false
       }
     },
+    async refresh(id: number) {
+      this.id = id
+      this.fetchItem()
+    }
   },
   async mounted() {
+    this.breadcrumbs= [
+      {
+        title: 'Colecciones',
+        href: '/coleccionista/home',
+      },
+    ]
+
     if (this.idCollection) {
       await this.fetchCollection()
-      this.breadcrumb = ['Colecciones', this.collection.name, 'Item', 'Nuevo']
+      this.breadcrumbs = [
+        ...this.breadcrumbs,
+        {
+          title: this.collection.name,
+          href: '/coleccionista/collection/' + this.collection.id
+        },
+        {
+          title: 'Nuevo'
+        }
+      ]
     }
     if (this.id) {
       await this.fetchItem()
-      this.breadcrumb = ['Colecciones', this.nameCollection + '', this.item.title,  'Editar']
+      this.breadcrumbs = [
+        ...this.breadcrumbs,
+        {
+          title: this.nameCollection,
+          href: '/coleccionista/collection/' + this.item.idcollection
+        },
+        {
+          title: this.item.title,
+          href: '/coleccionista/item/' + this.item.id,
+        },
+        {
+          title: 'Editar'
+        }
+      ]
     }
   },
 }
 </script>
 
 <template>
-  <v-breadcrumbs :items="breadcrumb"></v-breadcrumbs>
-  <ItemFormGame
-    v-if="code==='videogame'"
-    :id-collection="idCollection"
-    :id-user="idUser"
-    :id-item-type="idItemType"
-    :id-platform="idPlatform"
-    :name-collection="nameCollection"
-  />
-  <ItemFormBook
-    v-if="code==='book'"
-    :id="item?.id"
-    :current-title="item?.title"
-    :current-author="item?.author"
-    :current-year="item?.year"
-    :id-collection="idCollection"
-    :id-user="idUser"
-    :id-item-type="idItemType"
-    :name-collection="nameCollection"
-  />
-  <ItemFormAny
-    v-if="code!=='videogame' && code!=='book'"
-    :id="item?.id"
-    :current-title="item?.title"
-    :id-collection="idCollection"
-    :id-user="idUser"
-    :id-item-type="idItemType"
-    :name-collection="nameCollection"
-  />
+  <Loading v-if="loading" />
+  <div v-if="!loading">
+    <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
+    <ItemFormGame
+      v-if="code==='videogame'"
+      :id-collection="idCollection"
+      :id-user="idUser"
+      :id-item-type="idItemType"
+      :id-platform="idPlatform"
+      :name-collection="nameCollection"
+    />
+    <ItemFormBook
+      v-if="code==='book'"
+      :id="item?.id"
+      :current-title="item?.title"
+      :current-author="item?.author"
+      :current-year="item?.year"
+      :id-collection="idCollection"
+      :id-user="idUser"
+      :id-item-type="idItemType"
+      :name-collection="nameCollection"
+    />
+    <ItemFormAny
+      v-if="code!=='videogame' && code!=='book'"
+      :id="item?.id"
+      :current-title="item?.title"
+      :id-collection="idCollection"
+      :id-user="idUser"
+      :id-item-type="idItemType"
+      :name-collection="nameCollection"
+      @refreshTrigger="refresh"
+    />
+  </div>
 </template>

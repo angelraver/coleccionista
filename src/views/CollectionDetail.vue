@@ -1,17 +1,19 @@
 <script lang="ts">
-import { loggedUser } from '@/controllers/utils'
+import { loggedUser, type Breadcrumb } from '@/controllers/utils'
 import { type Item } from '@/entities/Item'
 import { type Collection } from '@/entities/Collection'
 import ItemList from '@/components/ItemList.vue'
 import { CollectionController } from '@/controllers/Collection'
 import { ItemTypes, getItemTypeLabel } from '@/entities/ItemType'
+import Loading from '@/components/Loading.vue'
 
 export default {
-  components: { ItemList },
+  components: { ItemList, Loading },
   data() {
     return {
       id: parseInt(this.$route.params.id + ''),
       idUser: parseInt(loggedUser()?.id + ''),
+      breadcrumbs: [] as Breadcrumb[],
       loading: true,
       items: [] as Item[],
       collection: {} as Collection,
@@ -37,16 +39,23 @@ export default {
   async mounted() {
     await this.fetchCollection()
     this.itemTypeLabel = getItemTypeLabel(this.collection.iditemtype)
+    this.breadcrumbs= [
+      {
+        title: 'Colecciones',
+        href: '/coleccionista/home',
+      },
+      {
+        title: this.collection.name
+      },
+    ]
   },
 }
 </script>
 
 <template>
-  <div v-if="loading">
-    <h1>cargando...</h1>
-  </div>
+  <Loading v-if="loading" />
   <div v-if="!loading">
-    <v-breadcrumbs :items="['Colecciones', collection.name]"></v-breadcrumbs>
+    <v-breadcrumbs :items="breadcrumbs"></v-breadcrumbs>
     <v-container>
       <v-responsive class="text-center">
         <v-row class="d-flex align-center justify-center">

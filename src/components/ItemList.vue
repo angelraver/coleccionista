@@ -3,8 +3,12 @@ import { type Item } from '@/entities/Item'
 import { randomIcon, randomColor } from "@/controllers/utils"
 import { ItemController } from '@/controllers/Item'
 import { COVER_URL_SMALL, COVER_URL_BIG  } from '@/controllers/utils'
+import Loading from '@/components/Loading.vue'
 
 export default {
+  components: {
+    Loading
+  },
   props: {
     idCollection: {
       type: Number, 
@@ -64,47 +68,50 @@ export default {
 </script>
 
 <template>
-  <p v-show="items.length < 1">La colección está vacía.</p>
-  <div v-if="idItemType != 1">
-    <v-list lines="two" v-show="items.length > 0 && idItemType != 1">
-      <v-list-item v-for="item in items" :key="item.id" :title="item.title">
-        <template v-slot:prepend>
-          <v-avatar :color="randomColor()" :icon="randomIcon()" />
-        </template>
-        <template v-slot:append>
-          <v-btn
-            color="grey-lighten-1"
-            icon="mdi-information"
-            variant="text"
-            @click="$router.push({ name: 'Item', params: { id: item.id } })"
-          ></v-btn>
-        </template>
-      </v-list-item>
-    </v-list>
-  </div>
-  <div v-if="idItemType === 1">
-    <v-container fluid>
-      <v-row dense>
-        <v-col
-          v-for="item in items"
-          :key="item.id"
-          :cols="isMobile ? 4 : 3"
-        >
-          <v-card
-            :height="isMobile ? '100px' : '280px'"
-            @click="$router.push({ name: 'Item', params: { id: item.id } })"
+  <Loading v-if="loading" />
+  <div v-if="!loading">
+    <p v-show="items.length < 1">La colección está vacía.</p>
+    <div v-if="idItemType != 1">
+      <v-list lines="two" v-show="items.length > 0 && idItemType != 1">
+        <v-list-item v-for="item in items" :key="item.id" :title="item.title">
+          <template v-slot:prepend>
+            <v-avatar :color="randomColor()" :icon="randomIcon()" />
+          </template>
+          <template v-slot:append>
+            <v-btn
+              color="grey-lighten-1"
+              icon="mdi-information"
+              variant="text"
+              @click="$router.push({ name: 'Item', params: { id: item.id } })"
+            ></v-btn>
+          </template>
+        </v-list-item>
+      </v-list>
+    </div>
+    <div v-if="idItemType === 1">
+      <v-container fluid>
+        <v-row dense>
+          <v-col
+            v-for="item in items"
+            :key="item.id"
+            :cols="isMobile ? 4 : 3"
           >
-            <v-img
-              :src="(isMobile ? coverUrlSmall : coverUrlBig) + item.cover"
-              :height="isMobile ? '100px' : '200px'"
-              cover
+            <v-card
+              :height="isMobile ? '100px' : '280px'"
+              @click="$router.push({ name: 'Item', params: { id: item.id } })"
             >
-            </v-img>
-            <v-card-title v-show="!isMobile">{{ item.title }}</v-card-title>
-            <v-tooltip v-show="isMobile" activator="parent" location="top">{{ item.title }}</v-tooltip>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+              <v-img
+                :src="(isMobile ? coverUrlSmall : coverUrlBig) + item.cover"
+                :height="isMobile ? '100px' : '200px'"
+                cover
+              >
+              </v-img>
+              <v-card-title v-show="!isMobile">{{ item.title }}</v-card-title>
+              <v-tooltip v-show="isMobile" activator="parent" location="top">{{ item.title }}</v-tooltip>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
   </div>
 </template>

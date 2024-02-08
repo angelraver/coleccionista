@@ -2,6 +2,7 @@
 import { ItemController } from '@/controllers/Item'
 import { IgdbController } from '@/controllers/Igdb'
 import { type Item } from '@/entities/Item'
+import Loading from '@/components/Loading.vue'
 
 export type Game = {
   id: number | null,
@@ -11,6 +12,9 @@ export type Game = {
 }
 
 export default {
+  components: {
+    Loading
+  },
   props: {
     nameCollection: {
       type: String,
@@ -60,8 +64,9 @@ export default {
         year: this.igdbGame.year
       }
       try {
-        await ItemController.create(item)
-        this.$router.push({ name: 'CollectionDetail', params: { id: this.idCollection }})
+        const newIdItem = await ItemController.create(item)
+        this.$emit('refreshTrigger', newIdItem);
+        this.$router.push({ name: 'ItemEdit', params: { id: newIdItem }})
       } catch (error) {
         console.error(error);
       }
@@ -112,47 +117,50 @@ export default {
 </script>
 
 <template>
-  <v-container>
-    <v-responsive class="text-center">
-      <v-row class="d-flex align-center justify-center">
-        <v-col>
-          <v-form>
-            <h2 class="text-h4 font-weight-bold">Agregar un Videojuego a la colección {{ nameCollection }}</h2>
-            <v-container>
-              <v-row justify="center">
-                <v-col cols="8">
-                  <v-autocomplete
-                    label="Buscar un título"
-                    v-model="gameOptionSelected"
-                    :items="igdbGameList"
-                    variant="outlined"
-                    item-text="title"
-                    item-value="id"
-                    @update:model-value="handleGameSelected"
-                    @input="handleGameInput"
-                    v-on:blur="clearGameInput"
-                  ></v-autocomplete>
-                </v-col>
-              </v-row>
-              <v-row justify="center">
-                <v-col cols="auto">
-                  <v-btn
-                    class="ma-2"
-                    text="Cancelar"
-                    @click="$router.push({ name: 'CollectionDetail', params: { id: idCollection }})"
-                  ></v-btn>
-                  <v-btn
-                      :disabled="!isValid"
-                      class="bg-amber ma-2"
-                      text="Guardar"
-                      @click="create()"
-                  ></v-btn>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-form>
-        </v-col>
-      </v-row>
-    </v-responsive>
-  </v-container>
+  <Loading v-if="loading" />
+  <div v-if="!loading">
+    <v-container>
+      <v-responsive class="text-center">
+        <v-row class="d-flex align-center justify-center">
+          <v-col>
+            <v-form>
+              <h2 class="text-h4 font-weight-bold">Agregar un Videojuego a la colección {{ nameCollection }}</h2>
+              <v-container>
+                <v-row justify="center">
+                  <v-col cols="8">
+                    <v-autocomplete
+                      label="Buscar un título"
+                      v-model="gameOptionSelected"
+                      :items="igdbGameList"
+                      variant="outlined"
+                      item-text="title"
+                      item-value="id"
+                      @update:model-value="handleGameSelected"
+                      @input="handleGameInput"
+                      v-on:blur="clearGameInput"
+                    ></v-autocomplete>
+                  </v-col>
+                </v-row>
+                <v-row justify="center">
+                  <v-col cols="auto">
+                    <v-btn
+                      class="ma-2"
+                      text="Cancelar"
+                      @click="$router.push({ name: 'CollectionDetail', params: { id: idCollection }})"
+                    ></v-btn>
+                    <v-btn
+                        :disabled="!isValid"
+                        class="bg-amber ma-2"
+                        text="Guardar"
+                        @click="create()"
+                    ></v-btn>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>
+          </v-col>
+        </v-row>
+      </v-responsive>
+    </v-container>
+  </div>
 </template>

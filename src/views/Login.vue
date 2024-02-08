@@ -85,7 +85,7 @@ export default {
               <v-alert text="Usuario o password equivocados." type="error" v-show="loginFail"></v-alert>
             </v-row>
             <v-row justify="center">
-              <v-btn text="Login" :disabled="loading" @click="login()" color="amber"/>
+              <v-btn text="Login" :disabled="loading" @click.once="login()" color="amber"/>
             </v-row>
           </v-container>
         </v-form>

@@ -3,6 +3,7 @@ import { ItemController } from '@/controllers/Item'
 import { getItemTypeLabel } from '@/entities/ItemType'
 import ModalConfirm from '@/components/ModalConfirm.vue'
 import ItemImageEdit from '@/components/ItemImageEdit.vue'
+import Loading from '@/components/Loading.vue'
 
 export default {
   props: {
@@ -41,7 +42,8 @@ export default {
   },
   components: {
     ModalConfirm,
-    ItemImageEdit
+    ItemImageEdit,
+    Loading
   },
   data() {
     return {
@@ -73,8 +75,9 @@ export default {
           author: this.author,
           year: this.year
         }
-        await ItemController.create(item)
-        this.$router.push({ name: 'CollectionDetail', params: { id: this.idCollection }})
+        const newIdItem = await ItemController.create(item)
+        this.$emit('refreshTrigger', newIdItem);
+        this.$router.push({ name: 'ItemEdit', params: { id: newIdItem }})
       } catch (error) {
         console.error(error);
       }
@@ -93,7 +96,7 @@ export default {
           this.author,
           this.year
         )
-        this.$router.push({ name: 'CollectionDetail', params: { id: this.idCollection }})
+        this.$router.push({ name: 'ItemDetail', params: { id: this.id }})
       } catch (error) {
         console.error(error);
       }
@@ -133,83 +136,75 @@ export default {
 }
 </script>
 <template>
-  <v-container>
-    <v-responsive class="text-center">
-      <v-row justify="center">
-        <v-col cols="18">
-          <h1 class="text-h4 font-weight-bold text-center">{{ id ? `Editar` : `Agregar nuevo item a ` + nameCollection }}</h1>
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col cols="8">
-          <v-text-field
-            v-model="title"
-            label="Título"
-            required
-            hide-details
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col cols="8">
-          <v-text-field
-            v-model="author"
-            label="Autor"
-            required
-            hide-details
-          ></v-text-field>
-        </v-col>
-      </v-row>      
-      <v-row class="justify-center">
-        <v-col cols="8">
-          <p>{{ typeLabel(idItemType) }}</p>
-        </v-col>
-      </v-row>
-      <v-row class="justify-center">
-        <v-col cols="8">
-          <v-btn
-            @click="$router.push({ name: 'Photo', params: { id } })"
-            class="bg-amber mt-2"
-          >
-            <v-icon icon="mdi-camera" size="large" start />
-            Agregar Foto
-          </v-btn>
-        </v-col>
-      </v-row>
-      <v-row class="justify-center">
-        <v-col cols="8">
-          <ItemImageEdit v-if="!!id" :id-item="id" :id-user="idUser" />
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col cols="auto">
-          <v-btn
-            text="Guardar"
-            @click="save()"
-            class="bg-amber ma-2"
-            :disabled="!idValid"
-          />
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col cols="auto">
-          <span v-show="id">
-            <ModalConfirm 
-              buttonOpenText="Eliminar" 
-              buttonOkText="Eliminar"
-              buttonKoText="Cancelar"
-              title="Confirma que deseas eliminar"
-              :description="`El item ${title} será eliminado de la colección ${nameCollection}.`"
-              @agree="del"
-            />  
-          </span>  
-          <v-btn
-            text="Cancelar"
-            @click="cancel()"
-            class="ma-2"
-          />
-        </v-col>
-      </v-row>
-    </v-responsive>
-  </v-container>
+  <Loading v-if="loading" />
+  <div v-if="!loading">
+    <v-container>
+      <v-responsive class="text-center">
+        <v-row justify="center">
+          <v-col cols="18">
+            <h1 class="text-h4 font-weight-bold text-center">{{ id ? `Editar` : `Agregar nuevo item a ` + nameCollection }}</h1>
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="8">
+            <v-text-field
+              v-model="title"
+              label="Título"
+              required
+              hide-details
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="8">
+            <v-text-field
+              v-model="author"
+              label="Autor"
+              required
+              hide-details
+            ></v-text-field>
+          </v-col>
+        </v-row>      
+        <v-row class="justify-center">
+          <v-col cols="8">
+            <p>{{ typeLabel(idItemType) }}</p>
+          </v-col>
+        </v-row>
+        <v-row class="justify-center">
+          <v-col cols="8">
+            <ItemImageEdit v-if="!!id" :id-item="id" :id-user="idUser" />
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="auto">
+            <v-btn
+              text="Guardar"
+              @click="save()"
+              class="bg-amber ma-2"
+              :disabled="!idValid"
+            />
+          </v-col>
+        </v-row>
+        <v-row justify="center">
+          <v-col cols="auto">
+            <span v-show="id">
+              <ModalConfirm 
+                buttonOpenText="Eliminar" 
+                buttonOkText="Eliminar"
+                buttonKoText="Cancelar"
+                title="Confirma que deseas eliminar"
+                :description="`El item ${title} será eliminado de la colección ${nameCollection}.`"
+                @agree="del"
+              />  
+            </span>  
+            <v-btn
+              text="Cancelar"
+              @click="cancel()"
+              class="ma-2"
+            />
+          </v-col>
+        </v-row>
+      </v-responsive>
+    </v-container>
+  </div>
 </template>

@@ -3,7 +3,7 @@ import { type Item } from '@/entities/Item'
 
 const create = async (item: Item) => {
   try {
-    await post('/item', item);
+    return await post('/item', item);
   } catch (error) {
     console.error(error);
   }

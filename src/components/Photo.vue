@@ -16,8 +16,14 @@ export default {
   components: {
     'simple-v-camera': Camera,
   },
+  data() {
+    return {
+      loading: false,
+    }
+  },
   methods: {
     async snapshot() {
+      this.loading = true
       const idUser = this.idUser
       const idItem = this.idItem
       const ref = this.$refs;
@@ -48,6 +54,7 @@ export default {
     <v-btn
       @click="snapshot()"
       class="bg-amber mt-2"
+      v-if="!loading"
     >
       <v-icon icon="mdi-camera" size="large" start />
       Tomar Foto
