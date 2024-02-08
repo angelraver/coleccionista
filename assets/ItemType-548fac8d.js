@@ -1,1 +1,0 @@
-const n=[{id:1,name:"Videojuegos",code:"videogame"},{id:2,name:"Consolas de videojuegos",code:"videogame_console"},{id:3,name:"Libros",code:"book"},{id:4,name:"Comics",code:"comic"}],s=o=>{var e;return((e=n.find(({id:d})=>d===o))==null?void 0:e.name)+""},a=o=>{var e;return((e=n.find(({id:d})=>d===o))==null?void 0:e.code)+""};export{n as I,a,s as g};
