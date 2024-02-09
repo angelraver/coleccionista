@@ -124,7 +124,7 @@ export default {
     this.breadcrumbs= [
       {
         title: 'Colecciones',
-        href: '/coleccionista/home',
+        href: '/home',
       }
     ]
     if (this.id) {
@@ -135,7 +135,7 @@ export default {
         ...this.breadcrumbs,
         {
           title: this.collection.name,
-          href: '/coleccionista/collection/' + this.collection.id,
+          href: '/collection/' + this.collection.id,
         },
         {
           title: 'Editar'
