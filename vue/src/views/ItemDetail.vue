@@ -66,11 +66,11 @@ export default {
     this.breadcrumbs= [
       {
         title: 'Colecciones',
-        href: '/coleccionista/home',
+        href: '/home',
       },
       {
         title: this.item.collectionname + '',
-        href: '/coleccionista/collection/' + this.item.idcollection,
+        href: '/collection/' + this.item.idcollection,
       },
       {
         title: this.item.title

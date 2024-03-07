@@ -74,7 +74,7 @@ export default {
     this.breadcrumbs= [
       {
         title: 'Colecciones',
-        href: '/coleccionista/home',
+        href: '/home',
       },
     ]
 
@@ -84,7 +84,7 @@ export default {
         ...this.breadcrumbs,
         {
           title: this.collection.name,
-          href: '/coleccionista/collection/' + this.collection.id
+          href: '/collection/' + this.collection.id
         },
         {
           title: 'Nuevo'
@@ -97,11 +97,11 @@ export default {
         ...this.breadcrumbs,
         {
           title: this.nameCollection,
-          href: '/coleccionista/collection/' + this.item.idcollection
+          href: '/collection/' + this.item.idcollection
         },
         {
           title: this.item.title,
-          href: '/coleccionista/item/' + this.item.id,
+          href: '/item/' + this.item.id,
         },
         {
           title: 'Editar'

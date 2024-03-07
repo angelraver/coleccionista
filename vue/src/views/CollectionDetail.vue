@@ -42,7 +42,7 @@ export default {
     this.breadcrumbs= [
       {
         title: 'Colecciones',
-        href: '/coleccionista/home',
+        href: '/home',
       },
       {
         title: this.collection.name

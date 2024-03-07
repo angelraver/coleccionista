@@ -64,9 +64,8 @@ export default {
         year: this.igdbGame.year
       }
       try {
-        const newIdItem = await ItemController.create(item)
-        this.$emit('refreshTrigger', newIdItem);
-        this.$router.push({ name: 'ItemEdit', params: { id: newIdItem }})
+        await ItemController.create(item)
+        this.$router.push({ name: 'CollectionDetail', params: { id: this.idCollection }})
       } catch (error) {
         console.error(error);
       }
@@ -75,7 +74,6 @@ export default {
       }
     },
     async fetchIgdbGames(title: string) {
-      this.loading = true
       try {
         const data = await IgdbController.fetch(title, this.idPlatform)
         this.igdbGameList = data.map((g: Game) => {
@@ -89,9 +87,6 @@ export default {
         })
       } catch (error) {
         console.error(error)
-      }
-      finally {
-        this.loading = false
       }
     },
     async handleGameSelected(value: any) {

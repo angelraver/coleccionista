@@ -37,19 +37,19 @@ export default {
     this.breadcrumbs= [
       {
         title: 'Colecciones',
-        href: '/coleccionista/home',
+        href: '/home',
       },
       {
         title: this.item.collectionname + '',
-        href: '/coleccionista/collection/' + this.item.idcollection
+        href: '/collection/' + this.item.idcollection
       },
       {
         title: this.item.title,
-        href: '/coleccionista/item/' + this.item.id,
+        href: '/item/' + this.item.id,
       },
       {
         title: 'Editar',
-        href: '/coleccionista/item/edit/' + this.item.id,
+        href: '/item/edit/' + this.item.id,
       },
       {
         title: 'Foto'
