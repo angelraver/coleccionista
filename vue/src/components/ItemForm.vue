@@ -15,6 +15,14 @@ export default {
       type: String,
       required: false 
     },
+    currentAuthor: {
+      type: String,
+      required: false 
+    },
+    currentYear: {
+      type: Number,
+      required: false 
+    },
     nameCollection: {
       type: String,
       required: true 
@@ -43,6 +51,8 @@ export default {
       valid: false,
       pageTitle: '',
       title: this.currentTitle || '',
+      author: this.currentAuthor || '',
+      year: this.currentYear || 0,
       typeLabel: (value: number) => getItemTypeLabel(value),
     }
   },
@@ -62,6 +72,8 @@ export default {
           iditemtype: this.idItemType,
           iduser: this.idUser,
           title: this.title,
+          author: this.author,
+          year: this.year
         }
         const newIdItem = await ItemController.create(item)
         this.$emit('refreshTrigger', newIdItem);
@@ -77,7 +89,13 @@ export default {
       this.loading = true
 
       try {
-        await ItemController.update(this.id || 0, this.idUser, this.title, '', 0)
+        await ItemController.update(
+          this.id || 0,
+          this.idUser,
+          this.title,
+          this.author,
+          this.year
+        )
         this.$router.push({ name: 'ItemDetail', params: { id: this.id }})
       } catch (error) {
         console.error(error);
@@ -137,6 +155,16 @@ export default {
             ></v-text-field>
           </v-col>
         </v-row>
+        <v-row justify="center">
+          <v-col cols="8">
+            <v-text-field
+              v-model="author"
+              label="Autor"
+              required
+              hide-details
+            ></v-text-field>
+          </v-col>
+        </v-row>      
         <v-row class="justify-center">
           <v-col cols="8">
             <p>{{ typeLabel(idItemType) }}</p>
@@ -145,16 +173,6 @@ export default {
         <v-row class="justify-center">
           <v-col cols="8">
             <ItemImageEdit v-if="!!id" :id-item="id" :id-user="idUser" />
-          </v-col>
-        </v-row>
-        <v-row justify="center">
-          <v-col cols="auto">
-            <v-btn
-              text="Guardar"
-              @click="save()"
-              class="bg-amber ma-2"
-              :disabled="!idValid"
-            />
           </v-col>
         </v-row>
         <v-row justify="center">
@@ -173,6 +191,14 @@ export default {
               text="Cancelar"
               @click="cancel()"
               class="ma-2"
+            />
+          </v-col>
+          <v-col cols="auto">
+            <v-btn
+              text="Guardar"
+              @click="save()"
+              class="bg-amber ma-2"
+              :disabled="!idValid"
             />
           </v-col>
         </v-row>

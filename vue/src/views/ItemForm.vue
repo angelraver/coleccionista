@@ -5,16 +5,14 @@ import { type Item } from '@/entities/Item'
 import { CollectionController } from '@/controllers/Collection'
 import { ItemController } from '@/controllers/Item'
 import ItemFormGame from '@/components/ItemFormGame.vue'
-import ItemFormAny from '@/components/ItemFormAny.vue'
-import ItemFormBook from '@/components/ItemFormBook.vue'
+import ItemForm from '@/components/ItemForm.vue'
 import { getItemTypeCode } from '@/entities/ItemType'
 import Loading from '@/components/Loading.vue'
 
 export default {
   components: {
     ItemFormGame,
-    ItemFormAny,
-    ItemFormBook,
+    ItemForm,
     Loading
   },
   data() {
@@ -124,8 +122,8 @@ export default {
       :id-platform="idPlatform"
       :name-collection="nameCollection"
     />
-    <ItemFormBook
-      v-if="code==='book'"
+    <ItemForm
+      v-if="code!=='videogame'"
       :id="item?.id"
       :current-title="item?.title"
       :current-author="item?.author"
@@ -134,16 +132,6 @@ export default {
       :id-user="idUser"
       :id-item-type="idItemType"
       :name-collection="nameCollection"
-    />
-    <ItemFormAny
-      v-if="code!=='videogame' && code!=='book'"
-      :id="item?.id"
-      :current-title="item?.title"
-      :id-collection="idCollection"
-      :id-user="idUser"
-      :id-item-type="idItemType"
-      :name-collection="nameCollection"
-      @refreshTrigger="refresh"
-    />
+    /> 
   </div>
 </template>

@@ -201,16 +201,6 @@ export default {
       </v-row>
       <v-row justify="center">
         <v-col cols="auto">
-          <v-btn
-            text="Guardar"
-            @click="save()"
-            class="bg-amber ma-2"
-            :disabled="!idValid"
-          />
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col cols="auto">
           <span v-show="id">
             <ModalConfirm 
               buttonOpenText="Eliminar" 
@@ -222,6 +212,14 @@ export default {
             />  
           </span>  
           <v-btn text="Cancelar" @click="cancel()" class="ma-2" />
+        </v-col>
+        <v-col cols="auto">
+          <v-btn
+            text="Guardar"
+            @click="save()"
+            class="bg-amber ma-2"
+            :disabled="!idValid"
+          />
         </v-col>
       </v-row>
     </v-container>
