@@ -1,5 +1,6 @@
 <script lang="ts" setup>
   import CollectionList from '@/components/CollectionList.vue'
+  import DownloadCsv, { Bussiness } from '@/components/DownloadCsv.vue'
 </script>
 <template>
   <v-container>
@@ -16,6 +17,10 @@
           </v-btn>
 
           <CollectionList />
+
+          <DownloadCsv :option="Bussiness.Items" />
+          <br/>
+          <DownloadCsv :option="Bussiness.Collections" />
 
         </v-col>
       </v-row>

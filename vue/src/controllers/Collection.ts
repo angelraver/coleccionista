@@ -1,5 +1,13 @@
 import { post, put, del, get } from '@/controllers/requests'
 
+const backup =  async () => {
+  try {
+    return await get('/collectionbkp', [])
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 const create = async (
   idUser: number,
   name: string,
@@ -15,6 +23,28 @@ const create = async (
   try {
     const result = await post('/collection', postData);
     return result
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+const fetch = async (idUser: number, id: number | null) => {
+  try {
+    const data = await get('/collection', [idUser + '', id + ''])
+    return data || []
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+const remove = async (id: number, idUser: number) => {
+  const delData = {
+    id: id,
+    iduser: idUser
+  }
+
+  try {
+    await del('/collection', delData)
   } catch (error) {
     console.error(error);
   }
@@ -39,26 +69,4 @@ const update = async (
   }
 }
 
-const remove = async (id: number, idUser: number) => {
-  const delData = {
-    id: id,
-    iduser: idUser
-  }
-
-  try {
-    await del('/collection', delData)
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-const fetch = async (idUser: number, id: number | null) => {
-  try {
-    const data = await get('/collection', [idUser + '', id + ''])
-    return data || []
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-export const CollectionController = { create, update, remove, fetch }
+export const CollectionController = { backup, create, fetch, remove,update }

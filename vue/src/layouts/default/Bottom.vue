@@ -1,5 +1,5 @@
 <template>
-  <span id="version">v1.0</span>
+  <span id="version">v1.2</span>
   <v-bottom-navigation>
     <v-btn value="home" @click="$router.push({ name: 'Home'})">
       <v-icon>mdi-home</v-icon>
