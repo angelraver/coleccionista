@@ -1,75 +1,54 @@
 # base
 
+Node express and vue site.
+The express server will serve the compiled vue site from site from /vue/dist.
+
 ## Project setup
 
+For express:
 ```
-# yarn
-yarn
-
 # npm
 npm install
-
-# pnpm
-pnpm install
-
-# bun
-bun install
-```
 
 ### Compiles and hot-reloads for development
 
 ```
-# yarn
-yarn dev
 
+Go to /vue where the vue site lives.
+On developing work at /vue.
+
+```
+# npm
+npm install
+
+### Compiles and hot-reloads for development
+
+```
 # npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# bun
-pnpm run dev
 ```
 
 ### Compiles and minifies for production
 
 ```
-# yarn
-yarn build
-
 # npm
 npm run build
-
-# pnpm
-pnpm build
-
-# bun
-pnpm run build
 ```
 
 ### Lints and fixes files
 
 ```
-# yarn
-yarn lint
-
 # npm
 npm run lint
-
-# pnpm
-pnpm lint
-
-# bun
-pnpm run lint
 ```
 
-### Customize configuration
+For relesing a new verson of the app firts run the deploy at /vue.
+The go up `cd...` at the root of the proyect.
+Then run the deploy to gcloud.
+I will deploy the node express site and the compiled contents on /vue/dist.
+This is the way to make the vue routes to work on the deploy plattaform.
 
-See [Configuration Reference](https://vitejs.dev/config/).
-
-
-### Deploy
+### Deploy to G CLOUD
 ```
 gcloud config set project coleccionista-web
 
@@ -81,7 +60,14 @@ gcloud app browse -s coleccionista-web
 
 ```
 
+## Estructure
+This frontend connects to the API Collector made in Go lang.
+The uploaded images are saved at GCloud resources.
+
+## IGDB
+Some features use to the Internet Game Data Base API.
+
 
 ### Issues
 
-If the autocomplet search for VideoGames does not work take a look to the collector golang project, it may be the IGMD (Internet Game Data Base) credentials are expired.
+If the autocomplet search for VideoGames does not work take a look to the collector golang project, it may be the IGDB (Internet Game Data Base) credentials are expired.

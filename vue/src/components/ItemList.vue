@@ -97,12 +97,10 @@ export default {
             :cols="isMobile ? 4 : 3"
           >
             <v-card
-              :height="isMobile ? '100px' : '280px'"
               @click="$router.push({ name: 'Item', params: { id: item.id } })"
             >
               <v-img
                 :src="(isMobile ? coverUrlSmall : coverUrlBig) + item.cover"
-                :height="isMobile ? '100px' : '200px'"
                 cover
               >
               </v-img>
