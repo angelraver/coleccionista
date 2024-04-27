@@ -88,13 +88,7 @@ export default {
       <v-responsive class="text-center">
         <v-row class="justify-center">
           <v-col cols="auto">
-            <v-card class="pl-4 pr-4 pb-4">
-              <h1 class="mt-4">{{ item.title }}</h1>
-              <h2 v-if="item.author && item.author.length > 0">de {{ item.author }}</h2>
-              <p v-if="item.year && item.year > 0">{{ item.year }}</p>
-              <p>Colección {{item.collectionname}}</p>
-              <p>{{ typeLabel(item.iditemtype) }}</p>
-              <v-img
+            <v-img
                 v-if="item.cover"
                 :width="400"
                 aspect-ratio="1/1"
@@ -106,8 +100,16 @@ export default {
                   :width="400"
                   :src="`${mediaUrl}/${image.name}`"
                 />
-              </v-card>
             </v-card>
+          </v-col>
+        </v-row>
+        <v-row class="justify-center">
+          <v-col cols="auto">
+              <h1>{{ item.title }}</h1>
+              <h2 v-if="item.author && item.author.length > 0">de {{ item.author }}</h2>
+              <p v-if="item.year && item.year > 0">{{ item.year }}</p>
+              <p>Colección {{item.collectionname}}</p>
+              <p>{{ typeLabel(item.iditemtype) }}</p>
           </v-col>
         </v-row>
         <v-row justify="center">

@@ -7,8 +7,6 @@
     <v-responsive class="text-center">
       <v-row class="d-flex align-center justify-center">
         <v-col cols="auto">
-          <img src="@/assets/logo-xs.png" title="Coleccionista" />
-
           <h1>Tus colecciones</h1>
 
           <v-btn @click="$router.push({ name: 'CollectionNew'})" class="bg-amber mt-4">

@@ -1,12 +1,14 @@
+<style>
+#version {
+  width: 100%;
+  margin: 4em 0 1em;
+  text-align: center;
+  font-size: small;
+  color: grey;
+}
+</style>
 <template>
-  <span id="version">v1.2</span>
-  <v-bottom-navigation>
-    <v-btn value="home" @click="$router.push({ name: 'Home'})">
-      <v-icon>mdi-home</v-icon>
-      <span>Inicio</span>
-    </v-btn>
-  </v-bottom-navigation>
+  <div id="version">
+    <span>v1.3 Coleccionista by Angel Raver</span>
+  </div>
 </template>
-<script lang="ts" setup>
-
-</script>

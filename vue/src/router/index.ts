@@ -3,9 +3,15 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/Login.vue'),
+  },
+  {
     path: '/',
     component: () => import('@/layouts/default/Default.vue'),
     children: [
+      //logged in
       {
         path: '/home',
         alias: ['', '/'],
@@ -55,9 +61,9 @@ const routes = [
     ],
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: () => import('@/views/Login.vue'),
+    path: '/:userName',
+    name: 'Landing',
+    component: () => import('@/views/Landing.vue'),
   },
 ]
 
