@@ -4,19 +4,7 @@ Node express and vue site.
 The express server will serve the compiled vue site from site from /vue/dist.
 
 ## Project setup
-
-For express:
-```
-# npm
-npm install
-
 ### Compiles and hot-reloads for development
-
-```
-
-Go to /vue where the vue site lives.
-On developing work at /vue.
-
 ```
 # npm
 npm install

@@ -1,8 +1,7 @@
 <script lang="ts">
-import { COVER_URL_BIG, MEDIA_URL, type Breadcrumb } from '@/controllers/utils'
-import { type Item } from '@/entities/Item'
+import { COVER_URL_BIG, MEDIA_URL } from '@/controllers/utils'
 import { type Image } from '@/entities/Image'
-import { type ItemType, getItemTypeLabel } from '@/entities/ItemType'
+import { getItemTypeLabel } from '@/entities/ItemType'
 import { ItemController } from '@/controllers/Item'
 import Loading from '@/components/Loading.vue'
 
