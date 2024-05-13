@@ -66,27 +66,42 @@ export default {
   }
 }
 </script>
-
+<style>
+.items-list {
+  margin: 0 auto;
+  padding: 0;
+  width: 75%;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
+}
+.items-list li {
+  list-style: none;
+  line-height: 3em;
+  cursor: pointer;
+}
+.items-list li a {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  text-decoration: none;
+  color: white;
+}
+.items-list li a:hover {
+  color: black;
+  background: #ffc107 !important;
+}
+</style>
 <template>
   <Loading v-if="loading" />
   <div v-if="!loading">
     <p v-show="items.length < 1">La colección está vacía.</p>
     <div v-if="idItemType != 1">
-      <v-list lines="two" v-show="items.length > 0 && idItemType != 1">
-        <v-list-item v-for="item in items" :key="item.id" :title="item.title">
-          <template v-slot:prepend>
-            <v-avatar :color="randomColor()" :icon="randomIcon()" />
-          </template>
-          <template v-slot:append>
-            <v-btn
-              color="grey-lighten-1"
-              icon="mdi-information"
-              variant="text"
-              @click="$router.push({ name: 'Item', params: { id: item.id } })"
-            ></v-btn>
-          </template>
-        </v-list-item>
-      </v-list>
+      <ul class="items-list" v-show="items.length > 0 && idItemType != 1">
+        <li v-for="item in items" :key="item.id">
+            <a @click="$router.push({ name: 'Item', params: { id: item.id } })">{{ item.title }}</a>
+        </li>
+      </ul>
     </div>
     <div v-if="idItemType === 1">
       <v-container fluid>

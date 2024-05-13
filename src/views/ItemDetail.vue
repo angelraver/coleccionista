@@ -131,6 +131,13 @@ export default {
               <v-icon icon="mdi-pencil" size="large" />
                 Editar
             </v-btn>
+            <v-btn v-show="!item.idigdb"
+              @click="$router.push({ name: 'CollectionDetail', params: { id: item.idcollection }})"
+              class="bg-amber ma-2"
+            >
+              <v-icon icon="mdi-check" size="large" />
+                Listo
+            </v-btn>
           </v-col>
         </v-row>
       </v-responsive>

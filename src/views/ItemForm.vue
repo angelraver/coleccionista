@@ -63,8 +63,9 @@ export default {
         this.loading = false
       }
     },
-    async refresh(id: number) {
+    async refreshSaved(id: number) {
       this.id = id
+      console.log('refesh!: ', id)
       this.fetchItem()
     }
   },
@@ -132,6 +133,7 @@ export default {
       :id-user="idUser"
       :id-item-type="idItemType"
       :name-collection="nameCollection"
+      @refresh="refreshSaved"
     /> 
   </div>
 </template>

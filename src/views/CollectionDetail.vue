@@ -82,7 +82,7 @@ export default {
           <v-col>
             <v-btn
               @click="$router.push({ name: 'CollectionEdit', params: { id: collection.id }})"
-              class="bg-amber mt-4"
+              class="mt-4"
             >
               <v-icon icon="mdi-pencil" size="large" />
                 Editar

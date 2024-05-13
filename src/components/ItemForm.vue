@@ -76,8 +76,7 @@ export default {
           year: this.year
         }
         const newIdItem = await ItemController.create(item)
-        this.$emit('refreshTrigger', newIdItem);
-        this.$router.push({ name: 'ItemEdit', params: { id: newIdItem }})
+        this.$emit('refresh', newIdItem);
       } catch (error) {
         console.error(error);
       }
@@ -96,7 +95,7 @@ export default {
           this.author,
           this.year
         )
-        this.$router.push({ name: 'ItemDetail', params: { id: this.id }})
+        this.$router.push({ name: 'CollectionDetail', params: { id: this.idCollection }})
       } catch (error) {
         console.error(error);
       }
@@ -192,8 +191,6 @@ export default {
               @click="cancel()"
               class="ma-2"
             />
-          </v-col>
-          <v-col cols="auto">
             <v-btn
               text="Guardar"
               @click="save()"

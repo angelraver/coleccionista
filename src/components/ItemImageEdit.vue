@@ -29,6 +29,7 @@ export default {
   },
   methods: {
     async fetchItemImages() {
+      console.log('fetchItemImages: ', this.idUser, this.idItem)
       this.loading = true
       try {
         this.images = await ItemController.fetchImages(this.idUser, this.idItem)
@@ -66,7 +67,7 @@ export default {
         <v-row class="justify-center">
           <v-col cols="8">
             <v-btn
-              @click="$router.push({ name: 'Photo', params: { idItem } })"
+              @click="$router.push({ name: 'Photo', params: { id: idItem } })"
               class="bg-amber mt-2"
             >
               <v-icon icon="mdi-camera" size="large" start />

@@ -7,16 +7,9 @@ export default {
     },
   },
   data() {
-    return {
-      menuItems: [
-        { title: 'Click Me1' },
-        { title: 'Click Me2' },
-      ],
-    }
+    return {}
   },
   methods: {
-  },
-  async mounted() {
   },
 }
 </script>
@@ -32,20 +25,20 @@ export default {
 .menu-wrapper {
   margin-left: 1em;
 }
+.pointer {
+  cursor: pointer;
+}
 </style>
 <template>
   <v-app-bar flat>
     <div class="menu-wrapper">
       <v-menu>
         <template v-slot:activator="{ props }">
-          <img v-bind="props" src="@/assets/logo-xs.png" title="Coleccionista" class="title-icon" />
+          <img v-bind="props" src="@/assets/logo-xs.png" title="Coleccionista" class="title-icon pointer" />
         </template>
         <v-list>
-          <v-list-item
-            v-for="(item, i) in menuItems"
-            :key="i"
-          >
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          <v-list-item>
+            <v-list-item-title class="pointer" @click="$router.push({ name: 'Home' })">Inicio</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
